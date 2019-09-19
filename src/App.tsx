@@ -3,12 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Form, { UiSchema } from 'react-jsonschema-form';
 import { JSONSchema6 } from "json-schema";
-import getFromPath from 'lodash/get';
+import Spinner from './Spinner';
 
 import './App.css';
 
+
 interface State {
-    configFetched: boolean,
     config?: {
         uiSchema: UiSchema,
         dataSchema: JSONSchema6,
@@ -17,7 +17,7 @@ interface State {
 
 class App extends React.Component {
     state: State = {
-        configFetched: false,
+        config: undefined,
     }
 
     constructor(props = {}) {
@@ -41,24 +41,28 @@ class App extends React.Component {
     }
 
     render() {
-        const dataSchema = getFromPath(this.state, 'config.dataSchema');
-        const uiSchema = getFromPath(this.state, 'config.uiSchema');
-
+        let pageContent : JSX.Element;
+        if (this.state.config) {
+            pageContent = (
+                <Form
+                    schema={this.state.config.dataSchema}
+                    uiSchema={this.state.config.uiSchema}
+                    onChange={() => console.log('changed')}
+                    onSubmit={() => console.log('submitted')}
+                    onError={() => console.log('errors')}
+                />
+            );
+        } else {
+            pageContent = (
+                <div className="app container-fluid">
+                    <Spinner />
+                </div>
+            );
+        }
         return (
             <div className="App container-fluid">
                 <section>
-                    {
-                        Boolean(dataSchema) && (
-                            <Form
-                                schema={dataSchema}
-                                uiSchema={uiSchema}
-                                onChange={() => console.log('changed')}
-                                onSubmit={() => console.log('submitted')}
-                                onError={() => console.log('errors')}
-                            />
-                        )
-
-                    }
+                    {pageContent}
                 </section>
             </div>
         );
