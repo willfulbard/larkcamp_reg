@@ -27,6 +27,11 @@
                         "type": "string",
                         "title": "Last name"
                     },
+                    "gender": {
+                        "type": "string",
+                        "title": "Gender",
+                        "enum": ["Male", "Female", "Other"]
+                    },
                     "age": {
                         "type": "integer",
                         "title": "Age, if under 18"
@@ -54,11 +59,31 @@
                     },
                     "session": {
                         "type": "string",
-                        "title": "Which Session?",
+                        "title": "Which session will you be attending?",
                         "enum": [
                             "Full camp",
                             "Half camp (1st half)",
                             "Half camp (2nd half)"
+                        ]
+                    },
+                    "meal_plan": {
+                        "type": "string",
+                        "title": "What meals will you purchase?",
+                        "enum": [
+                            "None",
+                            "Full Camp, All Meals",
+                            "Full Camp, Just Dinners",
+                            "Half Camp (first half), All Meals",
+                            "Half Camp (second half), All Meals"
+                        ]
+                    },
+                    "meal_type": {
+                        "type": "string",
+                        "title": "What types of meals do you want?",
+                        "enum": [
+                            "Non-Vegetarian",
+                            "Vegetarian",
+                            "Vegan"
                         ]
                     }
                 }
@@ -67,35 +92,51 @@
         "title": "Lark Camp Registration",
         "type": "object",
         "properties": {
-            "payer": {
-                "type": "object",
-                "title": "Payer Info",
-                "properties": {
-                    "first_name": { "type": "string", "title": "First Name" },
-                    "last_name": { "type": "string", "title": "Last Name" },
-                    "payment_type": {
-                        "type": "string",
-                        "title": "Payment Type",
-                        "enum": [
-                            "Credit Card",
-                            "Paypal",
-                            "Check"
-                        ]
-                    },
-                    "email": {
-                        "type": "string",
-                        "title": "Email"
-                    },
-                    "billing_address": { 
-                        "$ref": "#/definitions/address"
-                    }
-                }
+            "payer_first_name": { "type": "string", "title": "Payer First Name" },
+            "payer_last_name": { "type": "string", "title": "Payer Last Name" },
+            "payer_billing_address": { 
+                "$ref": "#/definitions/address"
+            },
+            "payer_email": {
+                "type": "string",
+                "title": "Email"
+            },
+            "payer_number": {
+                "type": "string",
+                "title": "Payer Phone Number"
+            },
+            "payment_type": {
+                "type": "string",
+                "title": "Payment Type",
+                "enum": [
+                    "Credit Card",
+                    "Paypal",
+                    "Check"
+                ]
+            },
+            "how_did_you_hear": {
+                "type": "string",
+                "title": "How did you hear about Lark Camp?"
+            },
+            "comments": {
+                "type": "string",
+                "title": "Comments"
             },
             "campers": {
                 "title": "campers",
                 "type": "array",
                 "items": {
                     "$ref": "#/definitions/camper"
+                }
+            },
+            "parking_passes": {
+                "type": "object",
+                "title": "Parking Passes",
+                "properties": {
+                    "holder": {
+                        "type": "string",
+                        "title": "Whose name will the parking pass be in?"
+                    }
                 }
             }
         }
