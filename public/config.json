@@ -3,6 +3,21 @@
     },
     "dataSchema": {
         "definitions": {
+            "natural": {
+                "type": "integer",
+                "minimum": 0
+            },
+            "sizes": {
+                "type": "object",
+                "title": "Sizes",
+                "properties": {
+                    "small": { "$ref": "#/definitions/natural" },
+                    "medium": { "$ref": "#/definitions/natural" },
+                    "large": { "$ref": "#/definitions/natural" },
+                    "xl": { "$ref": "#/definitions/natural" },
+                    "xxl": { "$ref": "#/definitions/natural" }
+                }
+            },
             "address": {
                 "type": "object",
                 "title": "Address",
@@ -14,79 +29,6 @@
                     "country":      { "type": "string" }
                 },
                 "required": ["street_address", "country", "city"]
-            },
-            "camper": {
-                "type": "object",
-                "required": ["first_name", "last_name"],
-                "properties": {
-                    "first_name": {
-                        "type": "string",
-                        "title": "First name"
-                    },
-                    "last_name": {
-                        "type": "string",
-                        "title": "Last name"
-                    },
-                    "gender": {
-                        "type": "string",
-                        "title": "Gender",
-                        "enum": ["Male", "Female", "Other"]
-                    },
-                    "age": {
-                        "type": "integer",
-                        "title": "Age, if under 18"
-                    },
-                    "address": { 
-                        "$ref": "#/definitions/address"
-                    },
-                    "camp_preference": {
-                        "type": "string",
-                        "title": "Camp Preference",
-                        "enum": ["Camp 1", "Camp 2", "Camp 3"]
-                    },
-                    "accomodation_preference": {
-                        "type": "string",
-                        "title": "Accomodation Preference",
-                        "enum": ["Cabin", "Tent", "Vehicle Camping"]
-                    },
-                    "cabinmates": {
-                        "type": "array",
-                        "title": "Cabinmates (if in a cabin)",
-                        "items": {
-                            "type": "string",
-                            "title": "Camper Name"
-                        }
-                    },
-                    "session": {
-                        "type": "string",
-                        "title": "Which session will you be attending?",
-                        "enum": [
-                            "Full camp",
-                            "Half camp (1st half)",
-                            "Half camp (2nd half)"
-                        ]
-                    },
-                    "meal_plan": {
-                        "type": "string",
-                        "title": "What meals will you purchase?",
-                        "enum": [
-                            "None",
-                            "Full Camp, All Meals",
-                            "Full Camp, Just Dinners",
-                            "Half Camp (first half), All Meals",
-                            "Half Camp (second half), All Meals"
-                        ]
-                    },
-                    "meal_type": {
-                        "type": "string",
-                        "title": "What types of meals do you want?",
-                        "enum": [
-                            "Non-Vegetarian",
-                            "Vegetarian",
-                            "Vegan"
-                        ]
-                    }
-                }
             }
         },
         "title": "Lark Camp Registration",
@@ -126,7 +68,77 @@
                 "title": "campers",
                 "type": "array",
                 "items": {
-                    "$ref": "#/definitions/camper"
+                    "type": "object",
+                    "required": ["first_name", "last_name"],
+                    "properties": {
+                        "first_name": {
+                            "type": "string",
+                            "title": "First name"
+                        },
+                        "last_name": {
+                            "type": "string",
+                            "title": "Last name"
+                        },
+                        "gender": {
+                            "type": "string",
+                            "title": "Gender",
+                            "enum": ["Male", "Female", "Other"]
+                        },
+                        "age": {
+                            "type": "integer",
+                            "title": "Age, if under 18"
+                        },
+                        "address": { 
+                            "$ref": "#/definitions/address"
+                        },
+                        "camp_preference": {
+                            "type": "string",
+                            "title": "Camp Preference",
+                            "enum": ["Camp 1", "Camp 2", "Camp 3"]
+                        },
+                        "accomodation_preference": {
+                            "type": "string",
+                            "title": "Accomodation Preference",
+                            "enum": ["Cabin", "Tent", "Vehicle Camping"]
+                        },
+                        "cabinmates": {
+                            "type": "array",
+                            "title": "Cabinmates (if in a cabin)",
+                            "items": {
+                                "type": "string",
+                                "title": "Camper Name"
+                            }
+                        },
+                        "session": {
+                            "type": "string",
+                            "title": "Which session will you be attending?",
+                            "enum": [
+                                "Full camp",
+                                "Half camp (1st half)",
+                                "Half camp (2nd half)"
+                            ]
+                        },
+                        "meal_plan": {
+                            "type": "string",
+                            "title": "What meals will you purchase?",
+                            "enum": [
+                                "None",
+                                "Full Camp, All Meals",
+                                "Full Camp, Just Dinners",
+                                "Half Camp (first half), All Meals",
+                                "Half Camp (second half), All Meals"
+                            ]
+                        },
+                        "meal_type": {
+                            "type": "string",
+                            "title": "What types of meals do you want?",
+                            "enum": [
+                                "Non-Vegetarian",
+                                "Vegetarian",
+                                "Vegan"
+                            ]
+                        }
+                    }
                 }
             },
             "parking_passes": {
@@ -138,6 +150,14 @@
                         "title": "Whose name will the parking pass be in?"
                     }
                 }
+            },
+            "tshirt_sizes": {
+                "$ref": "#/definitions/sizes",
+                "title": "T-shirt Sizes"
+            },
+            "sweatshirt_sizes": {
+                "$ref": "#/definitions/sizes",
+                "title": "Sweatshirt Sizes"
             }
         }
     }
