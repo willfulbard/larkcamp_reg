@@ -42,3 +42,36 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Backend php script
+
+To get the php side of things working for development, you must have the
+following:
+
+- install php via `brew install php`
+- link php
+    - `sudo mkdir /usr/local/sbin`
+    - `sudo chown $USER:admin /usr/local/sbin`
+    - `brew link php`
+- install composer via `brew install composer`
+- run `composer install` in the project root
+- create a test sqlite3 db: `sqlite3 ~/larkdb.sq3 < create.sql`
+- in addition to running `yarn start`, you'll need to run `yarn php` as well.
+- create a `.env` file.  It should look something like this:
+
+```
+DEBUG=1
+PDO_DSN="sqlite:/path/to/larkdb.sq3"
+PDO_USER="username"
+PDO_PASS="password"
+MAIL_HOST="smtp.gmail.com"
+MAIL_FROM_ADDRESS="bob@gmail.com"
+MAIL_FROM_NAME="bob shmoe"
+MAIL_USER="bob@gmail.com"
+MAIL_PASS="bobpass"
+MAIL_SEC="tls"
+MAIL_PORT="587"
+MAIL_TO_ADDRESS="bob@gmail.com"
+MAIL_TO_NAME="bob shmoe"
+```
+
