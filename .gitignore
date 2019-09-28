@@ -68,6 +68,7 @@ typings/
 
 # testing
 /coverage
+/php-tests/emails/*
 
 # production
 /build
@@ -85,3 +86,5 @@ yarn-error.log*
 
 # php
 /vendor
+.phpunit.result.cache
+
