@@ -57,10 +57,14 @@ following:
 - run `composer install` in the project root
 - create a test sqlite3 db: `sqlite3 ~/larkdb.sq3 < create.sql`
 - in addition to running `yarn start`, you'll need to run `yarn php` as well.
-- create a `.env` file.  It should look something like this:
+  - NOTE: using the this development server will cause all email to be routed
+    to `php-test/email/message` instead of actually being sent as long as the
+    `USE_SENDMAIL=1` is in the `.env`
+- create a `.env` file.  It should look like this:
 
 ```
 DEBUG=1
+USE_SENDMAIL=1
 PDO_DSN="sqlite:/path/to/larkdb.sq3"
 PDO_USER="username"
 PDO_PASS="password"
