@@ -1,6 +1,29 @@
 {
     "uiSchema": {
-
+        "payer_billing_address": {
+            "contentClassNames": "row",
+            "street_address": { "classNames": "col-xs-12 col-sm-12" },
+            "city":           { "classNames": "col-xs-12 col-sm-6"  },
+            "state":          { "classNames": "col-xs-6  col-sm-3"  },
+            "zip_code":       { "classNames": "col-xs-6  col-sm-3"  },
+            "country":        { "classNames": "col-xs-12 col-sm-6"  }
+        },
+        "tshirt_sizes": {
+            "contentClassNames": "row",
+            "small":  { "classNames": "col-xs-4 col-sm-2" },
+            "medium": { "classNames": "col-xs-4 col-sm-2" },
+            "large":  { "classNames": "col-xs-4 col-sm-2" },
+            "xl":     { "classNames": "col-xs-4 col-sm-2" },
+            "xxl":    { "classNames": "col-xs-4 col-sm-2" }
+        },
+        "sweatshirt_sizes": {
+            "contentClassNames": "row",
+            "small":  { "classNames": "col-xs-4 col-sm-2" },
+            "medium": { "classNames": "col-xs-4 col-sm-2" },
+            "large":  { "classNames": "col-xs-4 col-sm-2" },
+            "xl":     { "classNames": "col-xs-4 col-sm-2" },
+            "xxl":    { "classNames": "col-xs-4 col-sm-2" }
+        }
     },
     "dataSchema": {
         "definitions": {
