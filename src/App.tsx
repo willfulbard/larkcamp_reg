@@ -5,6 +5,7 @@ import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from './Spinner';
 import { AppState, Cents } from './appTypes';
 import jsonLogic from 'json-logic-js';
+import ObjectFieldTemplate from './form-templates/ObjectFieldTemplate';
 
 import './App.css';
 
@@ -82,6 +83,7 @@ class App extends React.Component {
                         <Form
                             schema={this.state.config.dataSchema}
                             uiSchema={this.state.config.uiSchema}
+                            ObjectFieldTemplate={ObjectFieldTemplate}
                             onChange={this.onChange}
                             onSubmit={this.onSubmit}
                             onError={() => console.log('errors')}
