@@ -8,10 +8,10 @@ use Exception;
 class JSON
 {
 
-    public function parse(string $str)
+    public function parse(string $str, $assoc = false)
     {
 
-        $results = json_decode($str);
+        $results = json_decode($str, $assoc);
 
         $json_error = json_last_error();
 
