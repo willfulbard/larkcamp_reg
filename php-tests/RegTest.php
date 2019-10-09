@@ -27,11 +27,7 @@ class RegistrationSubmissionTest extends TestCase
         ]);
         self::$process->enableOutput();
         self::$process->start();
-        // self::$process->waitUntil(function ($type, $output) {
-        //     fwrite(STDERR, "==$output==\n");
 
-        //     return $output === 'Press Ctrl-C to quit.';
-        // });
         sleep(1);
     }
 
@@ -100,8 +96,8 @@ EOF
                 'body' => $body,
             ]);
 
-            $this->assertEquals($res[0], $response->getStatusCode());
             $this->assertEquals('JSON error - ' . $res[1], (string) $response->getBody());
+            $this->assertEquals($res[0], $response->getStatusCode());
         }
     }
 
