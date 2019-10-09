@@ -2,7 +2,7 @@
   "name": "larkcamp_reg",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:4000/",
   "dependencies": {
     "@types/jest": "^24.0.18",
     "@types/lodash": "^4.14.138",
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "php": "php -S localhost:4000 -d sendmail_path=$(pwd)/php-tests/fakesendmail.sh -t public/",
+    "php": "php -S 0.0.0.0:4000 -d sendmail_path=$(pwd)/php-tests/fakesendmail.sh -t public/",
     "php-test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php php-tests",
     "build": "react-scripts build",
     "test": "react-scripts test",

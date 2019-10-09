@@ -1,23 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
-import Form, { UiSchema } from 'react-jsonschema-form';
-import { JSONSchema6 } from "json-schema";
+import Form from 'react-jsonschema-form';
 import Spinner from './Spinner';
+import { AppState } from './appTypes';
 
 import './App.css';
 
-
-interface State {
-    config?: {
-        uiSchema: UiSchema,
-        dataSchema: JSONSchema6,
-    },
-};
-
 class App extends React.Component {
-    state: State = {
-        config: undefined,
+    state: AppState = {
+        status: 'fetching',
     }
 
     constructor(props = {}) {
@@ -26,38 +18,66 @@ class App extends React.Component {
         this.getConfig();
     }
 
-    async getConfig() {
+    onSubmit = async ({formData}: any) => {
+        this.setState({status: 'submitting'});
+        try {
+            await fetch('/register.php', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+            });
+            this.setState({ status: 'submitted' });
+        } catch {
+            this.setState({ status: 'submissionError' });
+        }
+    }
+
+    getConfig = async () => {
         let config;
         try {
             const res = await fetch('/config.json');
             config = await res.json();
         } catch (e) {
             console.error(e);
-
             return;
         }
 
-        this.setState({ config });
+        this.setState({
+            status: 'loaded',
+            config,
+        });
     }
 
     render() {
         let pageContent : JSX.Element;
-        if (this.state.config) {
-            pageContent = (
-                <Form
-                    schema={this.state.config.dataSchema}
-                    uiSchema={this.state.config.uiSchema}
-                    onChange={() => console.log('changed')}
-                    onSubmit={() => console.log('submitted')}
-                    onError={() => console.log('errors')}
-                />
-            );
-        } else {
-            pageContent = (
-                <div className="app container-fluid">
-                    <Spinner />
-                </div>
-            );
+        switch(this.state.status){
+            case 'loaded':
+            case 'submitting':
+                pageContent = (
+                    <Form
+                        schema={this.state.config.dataSchema}
+                        uiSchema={this.state.config.uiSchema}
+                        onChange={() => console.log('changed')}
+                        onSubmit={this.onSubmit}
+                        onError={() => console.log('errors')}
+                    />
+                );  
+                break;
+            case 'submitted':
+                pageContent = (
+                    <div className="app container-fluid">
+                        <div className="reciept">
+                            <h1>You're all set!</h1>
+                            <span>See you at Lark in the Morning 2020!</span>
+                        </div>
+                    </div>
+                )
+                break;
+            default: 
+                pageContent = (
+                    <div className="app container-fluid">
+                        <Spinner />
+                    </div>
+                );
         }
         return (
             <div className="App container-fluid">
