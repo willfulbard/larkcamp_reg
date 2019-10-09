@@ -1,5 +1,6 @@
 {
     "uiSchema": {
+
     },
     "dataSchema": {
         "definitions": {
@@ -33,6 +34,146 @@
                     "country":      { "type": "string" }
                 },
                 "required": ["street_address", "country", "city"]
+            },
+            "accomodations": {
+                "type": "object",
+                "title": "Accomodations",
+                "properties": {
+                    "camp_preference": {
+                        "type": "string",
+                        "title": "Camp Preference",
+                        "enum": ["Camp 1", "Camp 2", "Camp 3"]
+                    },
+                    "accomodation_preference": {
+                        "type": "string",
+                        "title": "Accomodation Preference",
+                        "enum": ["Cabin", "Tent", "Vehicle Camping"]
+                    }
+                },
+                "dependencies": {
+                    "accomodation_preference": {
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "accomodation_preference": {
+                                        "enum": ["Cabin"]
+                                    },
+                                    "cabinmates": {
+                                        "type": "array",
+                                        "title": "Who would you like to be in a cabin with? (if in a cabin)",
+                                        "items": {
+                                            "type": "string",
+                                            "title": "Camper Name"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "accomodation_preference": {
+                                        "enum": ["Tent"]
+                                    },
+                                    "tent_or_vehicle_mates": {
+                                        "type": "array",
+                                        "title": "Who will be in your tent/vehicle with you?",
+                                        "items": {
+                                            "type": "string",
+                                            "title": "Name"
+                                        }
+                                    },
+                                    "tenting_area_preference": {
+                                        "type": "object",
+                                        "title": "What are your tent area preferences, in order?",
+                                        "properties": {
+                                            "first_choice": {
+                                                "$ref": "#/definitions/camping_preference",
+                                                "title": "First choice spot"
+                                            },
+                                            "second_choice": {
+                                                "$ref": "#/definitions/camping_preference",
+                                                "title": "Second choice spot"
+                                            },
+                                            "third_choice": {
+                                                "$ref": "#/definitions/camping_preference",
+                                                "title": "Third choice spot"
+                                            },
+                                            "fourth_choice": {
+                                                "$ref": "#/definitions/camping_preference",
+                                                "title": "Fourth choice spot"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "accomodation_preference": {
+                                        "enum": ["Vehicle Camping"]
+                                    },
+                                    "tent_or_vehicle_mates": {
+                                        "type": "array",
+                                        "title": "Who will be in your tent/vehicle with you? (if in a vehicle or tent)",
+                                        "items": {
+                                            "type": "string",
+                                            "title": "Name"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            "meals": {
+                "type": "object",
+                "title": "Meals",
+                "properties": {
+                    "meal_plan": {
+                        "type": "string",
+                        "title": "What meals will you purchase?",
+                        "enum": [
+                            "None",
+                            "Full Camp, All Meals",
+                            "Full Camp, Just Dinners",
+                            "Half Camp (first half), All Meals",
+                            "Half Camp (second half), All Meals"
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "meal_plan": {
+                        "oneOf": [
+                            {
+                                "properties": {
+                                    "meal_plan": {
+                                        "enum": ["None"]
+                                    }
+                                }
+                            },
+                            {
+                                "properties": {
+                                    "meal_plan": {
+                                        "enum": [
+                                            "Full Camp, All Meals",
+                                            "Full Camp, Just Dinners",
+                                            "Half Camp (first half), All Meals",
+                                            "Half Camp (second half), All Meals"
+                                        ]
+                                    },
+                                    "meal_type": {
+                                        "type": "string",
+                                        "title": "What types of meals do you want?",
+                                        "enum": [
+                                            "Non-Vegetarian",
+                                            "Vegetarian",
+                                            "Vegan"
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
             }
         },
         "title": "Lark Camp Registration",
@@ -95,54 +236,6 @@
                         "address": { 
                             "$ref": "#/definitions/address"
                         },
-                        "camp_preference": {
-                            "type": "string",
-                            "title": "Camp Preference",
-                            "enum": ["Camp 1", "Camp 2", "Camp 3"]
-                        },
-                        "accomodation_preference": {
-                            "type": "string",
-                            "title": "Accomodation Preference",
-                            "enum": ["Cabin", "Tent", "Vehicle Camping"]
-                        },
-                        "cabinmates": {
-                            "type": "array",
-                            "title": "Who would you like to be in a cabin with? (if in a cabin)",
-                            "items": {
-                                "type": "string",
-                                "title": "Camper Name"
-                            }
-                        },
-                        "tent_or_vehicle_mates": {
-                            "type": "array",
-                            "title": "Who will be in your tent/vehicle with you? (if in a vehicle or tent)",
-                            "items": {
-                                "type": "string",
-                                "title": "Name"
-                            }
-                        },
-                        "tenting_area_preference": {
-                            "type": "object",
-                            "title": "What are your tent area preferences, in order? (if tent camping)",
-                            "properties": {
-                                "first_choice": {
-                                    "$ref": "#/definitions/camping_preference",
-                                    "title": "First choice spot"
-                                },
-                                "second_choice": {
-                                    "$ref": "#/definitions/camping_preference",
-                                    "title": "Second choice spot"
-                                },
-                                "third_choice": {
-                                    "$ref": "#/definitions/camping_preference",
-                                    "title": "Third choice spot"
-                                },
-                                "fourth_choice": {
-                                    "$ref": "#/definitions/camping_preference",
-                                    "title": "Third choice spot"
-                                }
-                            }
-                        },
                         "session": {
                             "type": "string",
                             "title": "Which session will you be attending?",
@@ -152,25 +245,11 @@
                                 "Half camp (2nd half)"
                             ]
                         },
-                        "meal_plan": {
-                            "type": "string",
-                            "title": "What meals will you purchase?",
-                            "enum": [
-                                "None",
-                                "Full Camp, All Meals",
-                                "Full Camp, Just Dinners",
-                                "Half Camp (first half), All Meals",
-                                "Half Camp (second half), All Meals"
-                            ]
+                        "accomodations": {
+                            "$ref": "#/definitions/accomodations"
                         },
-                        "meal_type": {
-                            "type": "string",
-                            "title": "What types of meals do you want?",
-                            "enum": [
-                                "Non-Vegetarian",
-                                "Vegetarian",
-                                "Vegan"
-                            ]
+                        "meals": {
+                            "$ref": "#/definitions/meals"
                         }
                     }
                 }
