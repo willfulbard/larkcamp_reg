@@ -44,13 +44,30 @@ if (!$contents) {
 }
 
 try {
-    $json = new JSON\JSON();
-    $results = $json->parse($contents);
+    $json_parser = new JSON\JSON();
+    $parsed_json = $json_parser->parse($contents);
+    $json_config = $json_parser->parse(file_get_contents('config.json'));
 } catch (Exception $e) {
     killme("JSON error - " . $e->getMessage());
 }
 
-// TODO: Validate data with schema here
+$validator = new JsonSchema\Validator;
+
+// $parsed_json->payer_first_name = 1;
+
+$validator->validate(
+    $parsed_json,
+    $json_config->dataSchema,
+);
+
+if (!$validator->isValid()) {
+    $msg = "JSON does not validate. Violations:\n";
+    foreach ($validator->getErrors() as $error) {
+        $msg .= sprintf("[%s] %s\n", $error['property'], $error['message']);
+    }
+
+    killme($msg);
+}
 
 try {
     $stmt = $dbh

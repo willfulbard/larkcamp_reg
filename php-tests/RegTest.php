@@ -103,15 +103,15 @@ EOF
 
     public function testGoodSubmit()
     {
-        $json_body = '{ "test": "json data" }';
+        $json_body = exec(getcwd() . '/php-tests/generate-random-reg.js');
 
         // check posting
         $response = $this->http->post('/register.php', [
             'body' => $json_body,
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('', (string) $response->getBody());
+        $this->assertEquals(200, $response->getStatusCode());
 
         // check that it wrote to the DB
         $stmt = $this->dbh->prepare(
