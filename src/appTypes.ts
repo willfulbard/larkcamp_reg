@@ -2,7 +2,6 @@ import { UiSchema } from 'react-jsonschema-form';
 import { JSONSchema6 } from "json-schema";
 
 /* Utility States */
-
 export type Cents = number;
 
 /* App States */
