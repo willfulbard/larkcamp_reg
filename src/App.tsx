@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
-import Form from 'react-jsonschema-form';
+import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from './Spinner';
-import { AppState } from './appTypes';
+import { AppState, Cents } from './appTypes';
+import jsonLogic from 'json-logic-js';
 
 import './App.css';
 
@@ -44,7 +45,31 @@ class App extends React.Component {
         this.setState({
             status: 'loaded',
             config,
+            formData: undefined,
         });
+    }
+
+    onChange = ({formData}: IChangeEvent) => {
+        this.setState({ formData });
+    }
+
+    getPrice = (): Cents => {
+        // calculation should be done in cents for sake of
+        // avoiding funky issues with floats.
+        if(this.state.status === 'fetching'){
+            throw new Error('Got price while still fetching');
+        }
+        const cost = jsonLogic.apply(
+            this.state.config.pricingLogic,
+            this.state.formData
+        );
+        if (typeof cost !== 'number') {
+            throw new Error(
+                `Pricing returned incorrect type (expected number, got ${typeof cost})`);
+        } else if (Math.floor(cost) !== cost) {
+            throw new Error(`Pricing returned non-natural number (got ${cost}).`);
+        }
+        return cost;
     }
 
     render() {
@@ -53,13 +78,17 @@ class App extends React.Component {
             case 'loaded':
             case 'submitting':
                 pageContent = (
-                    <Form
-                        schema={this.state.config.dataSchema}
-                        uiSchema={this.state.config.uiSchema}
-                        onChange={() => console.log('changed')}
-                        onSubmit={this.onSubmit}
-                        onError={() => console.log('errors')}
-                    />
+                    <>
+                        <Form
+                            schema={this.state.config.dataSchema}
+                            uiSchema={this.state.config.uiSchema}
+                            onChange={this.onChange}
+                            onSubmit={this.onSubmit}
+                            onError={() => console.log('errors')}
+                            formData={this.state.formData}
+                        />
+                        Price: {this.getPrice()}
+                    </>
                 );  
                 break;
             case 'submitted':
