@@ -285,5 +285,8 @@
                 "title": "Donation to the Mendicino Woodlands (Tax Deductible, Dollars)"
             }
         }
+    },
+    "pricingLogic": {
+        "+": [1, 1]
     }
 }
