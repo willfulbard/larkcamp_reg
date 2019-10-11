@@ -293,36 +293,38 @@
                 {"var": "campers"},
                 {"+":[
                     {"var": "accumulator"},
-                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]},
-                        {  "if": [
-                            { "===": ["Full camp", {"var": "current.session"}]}, 784,
-                            { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 596,
-                            { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 596,
-                            0
+                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
+                        { "+": [
+                            { "if": [
+                                { "===": ["Full camp", {"var": "current.session"}]}, 784,
+                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 596,
+                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 596,
+                                0
+                            ]},
+                            { "if": [
+                                { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
+                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 406,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 230,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
+                                0
+                            ]}
                         ]},
-                        {  "if": [
-                            { "===": ["Full camp", {"var": "current.session"}]}, 596,
-                            { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
-                            { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
-                            0
-                        ]}
-                    ]},
-                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]},
-                        { "if": [
-                            { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                            { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 406,
-                            { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 230,
-                            { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
-                            { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
-                            0
-                        ]},
-                        { "if": [
-                            { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                            { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 304,
-                            { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 166,
-                            { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
-                            { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
-                            0
+                        { "+": [
+                            {  "if": [
+                                { "===": ["Full camp", {"var": "current.session"}]}, 596,
+                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
+                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
+                                0
+                            ]},
+                            { "if": [
+                                { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
+                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 304,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 166,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
+                                0
+                            ]}
                         ]}
                     ]}
                 ]},
