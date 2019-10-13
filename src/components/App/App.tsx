@@ -79,7 +79,7 @@ class App extends React.Component {
             case 'loaded':
             case 'submitting':
                 pageContent = (
-                    <>
+                    <section>
                         <Form
                             schema={this.state.config.dataSchema}
                             uiSchema={this.state.config.uiSchema}
@@ -90,31 +90,23 @@ class App extends React.Component {
                             formData={this.state.formData}
                         />
                         Price: {this.getPrice()}
-                    </>
+                    </section>
                 );  
                 break;
             case 'submitted':
                 pageContent = (
-                    <div className="app container-fluid">
-                        <div className="reciept">
-                            <h1>You're all set!</h1>
-                            <span>See you at Lark in the Morning 2020!</span>
-                        </div>
+                    <div className="reciept">
+                        <h1>You're all set!</h1>
+                        <span>See you at Lark in the Morning 2020!</span>
                     </div>
                 )
                 break;
             default: 
-                pageContent = (
-                    <div className="app container-fluid">
-                        <Spinner />
-                    </div>
-                );
+                pageContent = (<Spinner />);
         }
         return (
-            <div className="App container-fluid">
-                <section>
-                    {pageContent}
-                </section>
+            <div className="App">
+                {pageContent}
             </div>
         );
     }
