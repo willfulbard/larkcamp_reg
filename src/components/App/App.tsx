@@ -2,10 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
-import Spinner from './Spinner';
+import Spinner from '../Spinner';
 import { AppState, Cents } from './appTypes';
 import jsonLogic from 'json-logic-js';
-import ObjectFieldTemplate from './form-templates/ObjectFieldTemplate';
+import ObjectFieldTemplate from '../ObjectFieldTemplate';
 
 import './App.css';
 
