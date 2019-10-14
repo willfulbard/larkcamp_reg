@@ -6,6 +6,7 @@ import Spinner from '../Spinner';
 import { AppState, Cents } from './appTypes';
 import jsonLogic from 'json-logic-js';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
+import PriceTicker from '../PriceTicker';
 
 import './App.css';
 
@@ -89,7 +90,7 @@ class App extends React.Component {
                             onError={() => console.log('errors')}
                             formData={this.state.formData}
                         />
-                        Price: {this.getPrice()}
+                        <PriceTicker price={this.getPrice()} />
                     </section>
                 );  
                 break;
