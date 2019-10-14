@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
-import { AppState, Cents } from './appTypes';
+import { AppState, Dollars } from './appTypes';
 import jsonLogic from 'json-logic-js';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
+import PriceTicker from '../PriceTicker';
 
 import './App.css';
 
@@ -54,9 +55,10 @@ class App extends React.Component {
         this.setState({ formData });
     }
 
-    getPrice = (): Cents => {
-        // calculation should be done in cents for sake of
-        // avoiding funky issues with floats.
+    getPrice = (): Dollars => {
+        // calculation should be done in whole dollars for sake of
+        // avoiding funky issues with floats. If sub-dollar amounts 
+        // are necessary, we should switch this to cents.
         if(this.state.status === 'fetching'){
             throw new Error('Got price while still fetching');
         }
@@ -89,7 +91,7 @@ class App extends React.Component {
                             onError={() => console.log('errors')}
                             formData={this.state.formData}
                         />
-                        Price: {this.getPrice()}
+                        <PriceTicker price={this.getPrice()} />
                     </section>
                 );  
                 break;
