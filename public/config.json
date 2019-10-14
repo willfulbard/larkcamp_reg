@@ -248,14 +248,6 @@
                     "Check"
                 ]
             },
-            "how_did_you_hear": {
-                "type": "string",
-                "title": "How did you hear about Lark Camp?"
-            },
-            "comments": {
-                "type": "string",
-                "title": "Comments"
-            },
             "campers": {
                 "title": "Campers",
                 "type": "array",
@@ -331,6 +323,14 @@
             "woodlands_donation": {
                 "type": "number",
                 "title": "Donation to the Mendicino Woodlands (Tax Deductible, Dollars)"
+            },
+            "how_did_you_hear": {
+                "type": "string",
+                "title": "How did you hear about Lark Camp?"
+            },
+            "comments": {
+                "type": "string",
+                "title": "Comments"
             }
         }
     },
