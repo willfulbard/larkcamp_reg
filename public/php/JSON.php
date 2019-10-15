@@ -1,7 +1,5 @@
 <?php
 namespace JSON;
-// Load Composer's autoloader
-require '../vendor/autoload.php';
 
 use Exception;
 

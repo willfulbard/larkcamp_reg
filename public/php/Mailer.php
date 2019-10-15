@@ -1,7 +1,5 @@
 <?php
 namespace Mailer;
-// Load Composer's autoloader
-require '../vendor/autoload.php';
 
 use Exception;
 
@@ -12,7 +10,7 @@ class Mailer
 
     public function __construct(array $config = [])
     {
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/..');
+        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
         $dotenv->load();
 
         // Instantiation and passing `true` enables exceptions
