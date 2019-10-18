@@ -5,6 +5,7 @@ import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
 import { AppState, Dollars } from './appTypes';
 import jsonLogic from 'json-logic-js';
+import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
 import PriceTicker from '../PriceTicker';
 
@@ -85,6 +86,7 @@ class App extends React.Component {
                         <Form
                             schema={this.state.config.dataSchema}
                             uiSchema={this.state.config.uiSchema}
+                            fields={{DescriptionField: DescriptionField}}
                             ObjectFieldTemplate={ObjectFieldTemplate}
                             onChange={this.onChange}
                             onSubmit={this.onSubmit}
