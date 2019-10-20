@@ -10,9 +10,6 @@ class Mailer
 
     public function __construct(array $config = [])
     {
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
-        $dotenv->load();
-
         // Instantiation and passing `true` enables exceptions
         $this->mail = new \PHPMailer\PHPMailer\PHPMailer(true);
 
@@ -28,7 +25,7 @@ class Mailer
         ];
 
         foreach ($config_keys as $key) {
-            $config[$key] = $_ENV[$key] ?? $config[$key];
+            $config[$key] = getenv($key) ?? $config[$key];
         }
 
         if ($config['USE_SENDMAIL']) {
@@ -54,8 +51,8 @@ class Mailer
 
         $mail = $this->mail;
 
-        $config['to']   = $config['to'] ?? $_ENV['MAIL_TO_ADDRESS'] ?? $_ENV['MAIL_FROM_ADDRESS'];
-        $config['name'] = $config['name'] ?? $_ENV['MAIL_TO_NAME'] ?? '';
+        $config['to']   = $config['to'] ?? getenv('MAIL_TO_ADDRESS') ?? getenv('MAIL_FROM_ADDRESS');
+        $config['name'] = $config['name'] ?? getenv('MAIL_TO_NAME') ?? '';
 
         try {
             //Server settings

@@ -1,7 +1,5 @@
 <?php
 namespace DBConn;
-// Load Composer's autoloader
-require '../vendor/autoload.php';
 
 use PDO;
 
@@ -9,17 +7,13 @@ class Database extends PDO
 {
     public function __construct()
     {
-        $dotenv = \Dotenv\Dotenv::create(__DIR__ . '/../..');
-        $dotenv->load();
-
         $config_keys = [
             'PDO_DSN',
             'PDO_USER',
-            'PDO_PASS',
         ];
 
         foreach ($config_keys as $key) {
-            $config[$key] = $_ENV[$key];
+            if (!getenv($key)) throw new \PDOException("$key not set!");
         }
 
         $pdo_options = [
@@ -29,7 +23,7 @@ class Database extends PDO
         ];
 
         /* Connect to DB */
-        parent::__construct($_ENV['PDO_DSN'], $_ENV['PDO_USER'], $_ENV['PDO_PASS'], $pdo_options);
+        parent::__construct(getenv('PDO_DSN'), getenv('PDO_USER'), getenv('PDO_PASS'), $pdo_options);
     }
 }
 

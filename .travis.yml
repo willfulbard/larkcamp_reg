@@ -1,0 +1,25 @@
+language: php
+
+services:
+  - mysql
+
+php:
+  - 7.2
+
+env: ENV_FILE=.env-travis EMAIL_TEST_PATH=$TRAVIS_BUILD_DIR/php-tests/emails
+
+before_install:
+  - nvm install node
+  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS larkreg;"
+  - mysql -u root --database=larkreg < $TRAVIS_BUILD_DIR/create.sql
+  - mkdir -p "$TRAVIS_BUILD_DIR/php-tests/emails"
+  - touch "$TRAVIS_BUILD_DIR/php-tests/emails/message"
+
+install:
+  - yarn install
+  - composer install
+
+scripts:
+  - yarn test
+  - yarn php-test
+
