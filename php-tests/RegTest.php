@@ -1,8 +1,10 @@
 <?php
 namespace LarkRegistration\Tests;
 
+require_once 'public/php/Env.php';
+require_once 'public/php/JSON.php';
+
 use PHPUnit\Framework\TestCase;
-use Dotenv\Dotenv;
 use GuzzleHttp;
 use GuzzleHttp\Exception\RequestException;
 use PDO;
@@ -58,15 +60,13 @@ EOF
             );
         }
 
-        $dotenv = Dotenv::create(__DIR__ . '/..');
-        $dotenv->load();
-
         $pdo_options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
         /* Connect to DB */
+
         $this->dbh = new PDO($_ENV['PDO_DSN'], $_ENV['PDO_USER'], $_ENV['PDO_PASS'], $pdo_options);
     }
 
@@ -120,15 +120,19 @@ EOF
         $stmt->execute();
         $data = $stmt->fetch()['data'];
 
-        $this->assertEquals($json_body, $data);
+        $json_parser = new \JSON\JSON();
+        $data_obj = $json_parser->parse($data);
+        $body_obj = $json_parser->parse($json_body);
+
+        $this->assertEquals($body_obj, $data_obj);
 
         // check that it sent mail
         $email_assertions = [
-            "To: {$_ENV['MAIL_TO_NAME']} <{$_ENV['MAIL_TO_ADDRESS']}>"
+            "To:\s*{$_ENV['MAIL_TO_NAME']}"
                 => 'email message was not to the correct person',
-            "From: {$_ENV['MAIL_FROM_NAME']} <{$_ENV['MAIL_FROM_ADDRESS']}>"
+            "From:\s*{$_ENV['MAIL_FROM_NAME']}"
                 => 'email message was not from the correct person',
-            "Subject: Registration From"
+            "Subject:\s*Registration\s*From"
                 => 'email message did not have the correct subject',
         ];
 

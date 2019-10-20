@@ -2,6 +2,7 @@
 // Load Composer's autoloader
 require '../vendor/autoload.php';
 
+require_once 'php/Env.php';
 require 'php/Mailer.php';
 require 'php/DBConn.php';
 require 'php/RegPayload.php';
@@ -39,7 +40,7 @@ try {
     $mail = new Mailer\Mailer();
 
     $mail->send([
-        'to'      => $_ENV['MAIL_TO_ADDRESS'],
+        'to'      => getenv('MAIL_TO_ADDRESS'),
         'subject' => 'Registration From', // TODO: Add Name
         'body'    => 'This is the message body', // TODO: Add Body in CSV format
     ]);
@@ -49,7 +50,7 @@ try {
 
 function killme($str) {
     http_response_code(400);
-    if ($_ENV['DEBUG']) {
+    if (getenv('DEBUG')) {
         die($str);
     } else {
         // TODO: some sort of logger here
