@@ -358,10 +358,14 @@
                             ]}
                         ]},
                         { "+": [
-                            {  "if": [
-                                { "===": ["Full camp", {"var": "current.session"}]}, 596,
-                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
-                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
+                            { "if": [
+                                { ">": [{"var": ["current.age", 18]}, 3]},
+                                {  "if": [
+                                    { "===": ["Full camp", {"var": "current.session"}]}, 596,
+                                    { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
+                                    { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
+                                    0
+                                ]},
                                 0
                             ]},
                             { "if": [
