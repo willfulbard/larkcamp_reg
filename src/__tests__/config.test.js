@@ -1,10 +1,7 @@
 import fs from 'fs';
 import jsonLogic from 'json-logic-js';
 const config = fs.readFileSync('public/config.json');
-
-const priceOf = (data) => {
-  jsonLogic.apply(JSON.parse(config).pricingLogic, data);
-};
+  
 
 describe('Config object', () => {
   it('is valid JSON', () => {
@@ -16,17 +13,62 @@ describe('Config object', () => {
       expect(JSON.parse(config)).toHaveProperty(property);
     });
   });
+});
 
-  it('correctly prices full-camp paying by check', () => {
-    expect(priceOf({
-      payment_type: 'Check'
-      campers: [
-        {
-          
-        }
-      ],
-    })).toEqual(784)
 
+describe('Pricing Logic', () => {
+  // A truth table is a little easier to work with here.
+  // [Payment type, camp duration, meals, age, # parking passes]
+  const truthTable = [
+    // Discount logic
+    ['Check', 'Full camp', 'None', , 0, 764],
+    ['Paypal', 'Full camp', 'None', , 0, 784],
+    ['Credit Card', 'Full camp', 'None', , 0, 784],
+  
+    // Different ages across different camp types
+    ['Paypal', 'Full camp', 'None', 18, 0, 784],
+    ['Paypal', 'Full camp', 'None', 11, 0, 596],
+    ['Paypal', 'Full camp', 'None', 3, 0, 0],
+    ['Paypal', 'Half camp (1st half)', 'None', 18, 0, 596],
+    ['Paypal', 'Half camp (1st half)', 'None', 11, 0, 484],
+    ['Paypal', 'Half camp (1st half)', 'None', 3, 0, 0],
+  
+    // Different ages for different meals
+    ['Paypal', 'Full camp', 'Full Camp, All Meals', 18, 0, 784 + 406],
+    ['Paypal', 'Full camp', 'Full Camp, All Meals', 11, 0, 596 + 304],
+    ['Paypal', 'Full camp', 'Full Camp, All Meals', 3, 0, 304],
+
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 18, 0, 784 + 230],
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 11, 0, 596 + 166],
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 3, 0, 166],
+
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 18, 0, 596 + 230],
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 11, 0, 484 + 166],
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 3, 0, 166],
+  
+    // Parking Pass
+    ['Paypal', 'Full camp', 'None', 18, 1, 784 + 62],
+  ];
+
+  truthTable.forEach((entry) => {
+    it(`correctly prices ${entry.join(', ')}`, () => {
+      const [payment_type, session, meal_plan, age, numPasses, price] = entry;
+      const pricingLogic = JSON.parse(config).pricingLogic;
+      expect(jsonLogic.apply(pricingLogic, {
+        payment_type,
+        campers: [
+          {
+            session,
+            age,
+            meals: {
+              meal_plan,
+            }
+          }
+        ],
+        parking_passes: Array(numPasses).fill({}),
+      })).toEqual(price);
+    });
   });
 });
+
 
