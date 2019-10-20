@@ -80,7 +80,7 @@ EOF
         $response = $this->http->post('/register.php');
 
         $this->assertEquals(400, $response->getStatusCode());
-        $this->assertEquals('Could not read post data', (string) $response->getBody());
+        $this->assertEquals('the payload cannot be empty', (string) $response->getBody());
     }
 
     public function testJSONErrors()

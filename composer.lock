@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c1941a82435735230090a36cbd4cffd",
+    "content-hash": "1213dca46b76c1977f8d45c9ca8f10cf",
     "packages": [
         {
             "name": "justinrainbow/json-schema",
@@ -71,6 +71,50 @@
                 "schema"
             ],
             "time": "2019-01-14T23:55:14+00:00"
+        },
+        {
+            "name": "peridot-php/object-path",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peridot-php/object-path.git",
+                "reference": "73739d0a1460a71499336fc11c63e8883c8811d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peridot-php/object-path/zipball/73739d0a1460a71499336fc11c63e8883c8811d3",
+                "reference": "73739d0a1460a71499336fc11c63e8883c8811d3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "peridot-php/peridot-jumpstart": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Peridot\\ObjectPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Scaturro",
+                    "email": "scaturrob@gmail.com"
+                }
+            ],
+            "description": "A string syntax to fetch values from array and object hierarchies",
+            "keywords": [
+                "array",
+                "object",
+                "traversal"
+            ],
+            "time": "2015-07-24T11:35:27+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
