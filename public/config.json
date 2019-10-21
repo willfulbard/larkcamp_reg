@@ -386,17 +386,17 @@
                     { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
                         { "+": [
                             { "if": [
-                                { "===": ["Full camp", {"var": "current.session"}]}, 784,
-                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 596,
-                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 596,
+                                { "===": ["Full camp", {"var": "current.session"}]}, 78400,
+                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 59600,
+                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 59600,
                                 0
                             ]},
                             { "if": [
                                 { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 406,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 230,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
+                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 40600,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 23000,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 23000,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 23000,
                                 0
                             ]}
                         ]},
@@ -404,19 +404,19 @@
                             { "if": [
                                 { ">": [{"var": ["current.age", 18]}, 3]},
                                 {  "if": [
-                                    { "===": ["Full camp", {"var": "current.session"}]}, 596,
-                                    { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
-                                    { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
+                                    { "===": ["Full camp", {"var": "current.session"}]}, 59600,
+                                    { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 48400,
+                                    { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 48400,
                                     0
                                 ]},
                                 0
                             ]},
                             { "if": [
                                 { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 304,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 166,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
+                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 30400,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 16600,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 16600,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 16600,
                                 0
                             ]}
                         ]}
@@ -434,9 +434,9 @@
                     {"+":[
                         {"var": "accumulator"},
                         {  "if": [
-                            { "===": ["Full camp", {"var": "current.session"}]}, -20,
-                            { "===": ["Half camp (1st half)", {"var": "current.session"}]}, -10,
-                            { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, -10,
+                            { "===": ["Full camp", {"var": "current.session"}]}, -2000,
+                            { "===": ["Half camp (1st half)", {"var": "current.session"}]}, -1000,
+                            { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, -1000,
                             0
                         ]}
                     ]},
@@ -448,32 +448,37 @@
                 {"var": "parking_passes"},
                 {"+":[
                     {"var": "accumulator"},
-                    62
+                    6200
                 ]},
                 0
             ]},
             {"*": [{"-": [{"var": ["tshirt_sizes.small", 0]}, {"%": [{"var": ["tshirt_sizes.small", 0]}, 1]}]},
-             14]},
+             1400]},
             {"*": [{"-": [{"var": ["tshirt_sizes.medium", 0]}, {"%": [{"var": ["tshirt_sizes.medium", 0]}, 1]}]},
-             14]},
+             1400]},
             {"*": [{"-": [{"var": ["tshirt_sizes.large", 0]}, {"%": [{"var": ["tshirt_sizes.large", 0]}, 1]}]},
-             14]},
+             1400]},
             {"*": [{"-": [{"var": ["tshirt_sizes.xl", 0]}, {"%": [{"var": ["tshirt_sizes.xl", 0]}, 1]}]},
-             14]},
+             1400]},
             {"*": [{"-": [{"var": ["tshirt_sizes.xxl", 0]}, {"%": [{"var": ["tshirt_sizes.xxl", 0]}, 1]}]},
-             16]},
+             1600]},
             {"*": [{"-": [{"var": ["sweatshirt_sizes.small", 0]}, {"%": [{"var": ["sweatshirt_sizes.small", 0]}, 1]}]},
-             22]},
+             2200]},
             {"*": [{"-": [{"var": ["sweatshirt_sizes.medium", 0]}, {"%": [{"var": ["sweatshirt_sizes.medium", 0]}, 1]}]},
-             22]},
+             2200]},
             {"*": [{"-": [{"var": ["sweatshirt_sizes.large", 0]}, {"%": [{"var": ["sweatshirt_sizes.large", 0]}, 1]}]},
-             22]},
+             2200]},
             {"*": [{"-": [{"var": ["sweatshirt_sizes.xl", 0]}, {"%": [{"var": ["sweatshirt_sizes.xl", 0]}, 1]}]},
-             22]},
+             2200]},
             {"*": [{"-": [{"var": ["sweatshirt_sizes.xxl", 0]}, {"%": [{"var": ["sweatshirt_sizes.xxl", 0]}, 1]}]},
-             24]},
-            { "-": [{"var": ["lta_donation", 0]}, {"%": [{"var": ["lta_donation", 0]}, 1]}]},
-            { "-": [{"var": ["woodlands_donation", 0]}, {"%": [{"var": ["woodlands_donation", 0]}, 1]}]}
-        ]
-    }
+             2400]},
+            { "-": [
+                {"*": [{"var": ["lta_donation", 0]}, 100]},
+                {"%": [{"*": [{"var": ["lta_donation", 0]}, 100]}, 1]}
+            ]},
+            { "-": [
+                {"*": [{"var": ["woodlands_donation", 0]}, 100]},
+                {"%": [{"*": [{"var": ["woodlands_donation", 0]}, 100]}, 1]}
+            ]}
+    ]}
 }

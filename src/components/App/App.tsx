@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
-import { AppState, Dollars } from './appTypes';
+import { AppState, Cents } from './appTypes';
 import jsonLogic from 'json-logic-js';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
@@ -56,8 +56,8 @@ class App extends React.Component {
         this.setState({ formData });
     }
 
-    getPrice = (): Dollars => {
-        // calculation should be done in whole dollars for sake of
+    getPrice = (): Cents => {
+        // calculation should be done in cents for sake of
         // avoiding funky issues with floats. If sub-dollar amounts 
         // are necessary, we should switch this to cents.
         if(this.state.status === 'fetching'){
