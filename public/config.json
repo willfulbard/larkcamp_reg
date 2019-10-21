@@ -85,6 +85,11 @@
                 "minimum": 0,
                 "default": 0
             },
+            "dollar_amount": {
+                "type": "number",
+                "minimum": 0,
+                "multipleOf": 0.01
+            },
             "sizes": {
                 "type": "object",
                 "title": "Sizes",
@@ -360,11 +365,11 @@
                 "title": "Sweatshirt Sizes"
             },
             "lta_donation": {
-                "$ref": "#/definitions/natural",
+                "$ref": "#/definitions/dollar_amount",
                 "title": "Donation to Lark Traditional Arts (Tax Deductible, Dollars)"
             },
             "woodlands_donation": {
-                "$ref": "#/definitions/natural",
+                "$ref": "#/definitions/dollar_amount",
                 "title": "Donation to the Mendicino Woodlands (Tax Deductible, Dollars)"
             },
             "how_did_you_hear": {
