@@ -13,7 +13,10 @@
             "ui:help": "VERY IMPORTANT FOR ALL COMMUNICATIONS - If none must put NONE@NONE.COM"
         },
         "payer_number": {
-            "ui:help": "If none put NONE"
+            "ui:help": "If none put NONE",
+            "ui:options": {
+                "inputType": "tel"
+            }
         },
         "payment_type": {
             "ui:description": { "__html": "<p>Full Price - payment by credit card or Paypal</p><p>Discount Price - payment by personal check, bank check, or money order</p><p>All further payments must be made by the same method.<p>" }
@@ -85,15 +88,21 @@
                 "minimum": 0,
                 "default": 0
             },
+            "shirt_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9,
+                "default": 0
+            },
             "sizes": {
                 "type": "object",
                 "title": "Sizes",
                 "properties": {
-                    "small": { "$ref": "#/definitions/natural" },
-                    "medium": { "$ref": "#/definitions/natural" },
-                    "large": { "$ref": "#/definitions/natural" },
-                    "xl": { "$ref": "#/definitions/natural" },
-                    "xxl": { "$ref": "#/definitions/natural" }
+                    "small": { "$ref": "#/definitions/shirt_count" },
+                    "medium": { "$ref": "#/definitions/shirt_count" },
+                    "large": { "$ref": "#/definitions/shirt_count" },
+                    "xl": { "$ref": "#/definitions/shirt_count" },
+                    "xxl": { "$ref": "#/definitions/shirt_count" }
                 }
             },
             "address": {
@@ -102,18 +111,23 @@
                 "properties": {
                     "street_address": {
                         "type": "string",
+                        "maxLength": 50,
                         "title": "Address"
                     },
                     "city": {
                         "type": "string",
+                        "maxLength": 50,
                         "title": "City"
                     },
                     "state_or_province": {
                         "type": "string",
+                        "maxLength": 50,
                         "title": "State or Province"
                     },
                     "zip_code":     {
                         "type": "string",
+                        "minLength": 3,
+                        "maxLength": 10,
                         "title": "Zipcode or Postal Code"
                     },
                     "country": {
@@ -123,7 +137,7 @@
                         "default": "United States"
                     }
                 },
-                "required": ["street_address", "country", "city", "state_or_province", "zip_code", "country"]
+                "required": ["street_address", "city", "state_or_province", "zip_code", "country"]
             },
             "accomodations": {
                 "type": "object",
@@ -153,6 +167,7 @@
                                         "title": "Who would you like to be in a cabin with? (if in a cabin)",
                                         "items": {
                                             "type": "string",
+                                            "maxLength": 50,
                                             "title": "Camper Name"
                                         }
                                     }
@@ -168,6 +183,7 @@
                                         "title": "Who will be in your tent/vehicle with you?",
                                         "items": {
                                             "type": "string",
+                                            "maxLength": 50,
                                             "title": "Name"
                                         }
                                     },
@@ -205,6 +221,7 @@
                                         "title": "Who will be in your tent/vehicle with you? (if in a vehicle or tent)",
                                         "items": {
                                             "type": "string",
+                                            "maxLength": 50,
                                             "title": "Name"
                                         }
                                     }
@@ -268,18 +285,30 @@
         },
         "title": "Lark Camp Registration",
         "type": "object",
+        "required": ["payer_email"],
         "properties": {
-            "payer_first_name": { "type": "string", "title": "Payer First Name" },
-            "payer_last_name": { "type": "string", "title": "Payer Last Name" },
+            "payer_first_name": {
+                "type": "string",
+                "maxLength": 50,
+                "title": "Payer First Name"
+            },
+            "payer_last_name": {
+                "type": "string",
+                "maxLength": 50,
+                "title": "Payer Last Name"
+            },
             "payer_billing_address": { 
                 "$ref": "#/definitions/address"
             },
             "payer_email": {
                 "type": "string",
+                "format": "email",
                 "title": "Email"
             },
             "payer_number": {
                 "type": "string",
+                "maxLength": 20,
+                "pattern": "^((.*?[0-9].*?){10,}|NONE)$",
                 "title": "Phone Number"
             },
             "payment_type": {
@@ -295,16 +324,19 @@
                 "title": "Campers",
                 "type": "array",
                 "minItems": 1,
+                "maxItems": 8,
                 "items": {
                     "type": "object",
                     "required": ["first_name", "last_name"],
                     "properties": {
                         "first_name": {
                             "type": "string",
+                            "maxLength": 50,
                             "title": "First name"
                         },
                         "last_name": {
                             "type": "string",
+                            "maxLength": 50,
                             "title": "Last name"
                         },
                         "gender": {
@@ -314,6 +346,8 @@
                         },
                         "age": {
                             "type": "integer",
+                            "minimum": 0,
+                            "maximum": 100,
                             "title": "Age, if under 18"
                         },
                         "camper_address": { 
@@ -340,12 +374,15 @@
             "parking_passes": {
                 "type": "array",
                 "title": "Parking Passes",
+                "minItems": 0,
+                "maxItems": 4,
                 "items": {
                     "type": "object",
                     "title": "Parking Pass",
                     "properties": {
                         "holder": {
                             "type": "string",
+                            "maxLength": 50,
                             "title": "Whose name will the parking pass be in?"
                         }
                     }
@@ -361,18 +398,22 @@
             },
             "lta_donation": {
                 "type": "integer",
+                "minimum": 0,
                 "title": "Donation to Lark Traditional Arts (Tax Deductible, Dollars)"
             },
             "woodlands_donation": {
                 "type": "integer",
+                "minimum": 0,
                 "title": "Donation to the Mendicino Woodlands (Tax Deductible, Dollars)"
             },
             "how_did_you_hear": {
                 "type": "string",
+                "maxLength": 50,
                 "title": "How did you hear about Lark Camp?"
             },
             "comments": {
                 "type": "string",
+                "maxLength": 500,
                 "title": "Comments"
             }
         }

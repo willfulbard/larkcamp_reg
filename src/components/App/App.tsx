@@ -76,6 +76,17 @@ class App extends React.Component {
         return cost;
     }
 
+    transformErrors = (errors: Array<any>) => errors.map(error => {
+        if (error.name === 'pattern' && error.property === '.payer_number') {
+            return {
+                ...error,
+                message: 'Please enter a valid phone number',
+            };
+        }
+
+        return error;
+    });
+
     render() {
         let pageContent : JSX.Element;
         switch(this.state.status){
@@ -92,6 +103,8 @@ class App extends React.Component {
                             onSubmit={this.onSubmit}
                             onError={() => console.log('errors')}
                             formData={this.state.formData}
+                            transformErrors={this.transformErrors}
+                            // liveValidate={true}
                         />
                         <PriceTicker price={this.getPrice()} />
                     </section>
