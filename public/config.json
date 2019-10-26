@@ -285,6 +285,7 @@
         },
         "title": "Lark Camp Registration",
         "type": "object",
+        "required": ["payer_first_name", "payer_last_name", "payer_email", "payer_phone"],
         "properties": {
             "payer_first_name": {
                 "type": "string",
