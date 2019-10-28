@@ -14,9 +14,7 @@
         },
         "payer_number": {
             "ui:help": "If none put NONE",
-            "ui:options": {
-                "inputType": "tel"
-            }
+            "ui:widget": "PhoneInput"
         },
         "payment_type": {
             "ui:description": { "__html": "<p>Full Price - payment by credit card or Paypal</p><p>Discount Price - payment by personal check, bank check, or money order</p><p>All further payments must be made by the same method.<p>" }
@@ -285,7 +283,7 @@
         },
         "title": "Lark Camp Registration",
         "type": "object",
-        "required": ["payer_email"],
+        "required": ["payer_first_name", "payer_last_name", "payer_email", "payer_number"],
         "properties": {
             "payer_first_name": {
                 "type": "string",
@@ -308,7 +306,7 @@
             "payer_number": {
                 "type": "string",
                 "maxLength": 20,
-                "pattern": "^((.*?[0-9].*?){10,}|NONE)$",
+                "pattern": "^\\+[0-9]+$",
                 "title": "Phone Number"
             },
             "payment_type": {

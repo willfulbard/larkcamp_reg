@@ -3,6 +3,8 @@ namespace LarkRegistration\Tests;
 
 require_once 'public/php/Env.php';
 require_once 'public/php/JSON.php';
+require_once 'public/php/DBConn.php';
+require_once 'public/php/RegPayload.php';
 
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp;
@@ -67,7 +69,8 @@ EOF
         ];
         /* Connect to DB */
 
-        $this->dbh = new PDO($_ENV['PDO_DSN'], $_ENV['PDO_USER'], $_ENV['PDO_PASS'], $pdo_options);
+
+        $this->dbh = new \DBConn\Database();
     }
 
     public function tearDown(): void 
@@ -98,6 +101,34 @@ EOF
 
             $this->assertEquals('JSON error - ' . $res[1], (string) $response->getBody());
             $this->assertEquals($res[0], $response->getStatusCode());
+        }
+    }
+
+    public function formatSchemaError($payload)
+    {
+        $msg = "json failed to validate:\n";
+
+        foreach ($payload->getValidationErrors() as $error) {
+            $msg .= sprintf("[%s = %s] %s\n", $error['property'], $error['value'], $error['message']);
+        }
+
+        return $msg;
+    }
+
+    public function testSchemaRobustness()
+    {
+        // Try to validate 50 random responses.  Although not deterministic,
+        // this will probably weed out most fragile schema components
+        for($i = 0; $i < 50; $i++) {
+            $json_body = exec(getcwd() . '/php-tests/generate-random-reg.js');
+
+            $payload = new \Responses\RegPayload($json_body);
+
+            $this->assertEquals(
+                $payload->validate(),
+                true, 
+                $this->formatSchemaError($payload)
+            );
         }
     }
 

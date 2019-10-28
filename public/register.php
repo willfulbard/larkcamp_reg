@@ -22,7 +22,7 @@ try {
 if (!$payload->validate()) {
     $msg = "JSON does not validate. Violations:\n";
     foreach ($payload->getValidationErrors() as $error) {
-        $msg .= sprintf("[%s] %s\n", $error['property'], $error['message']);
+        $msg .= sprintf("[%s = %s] %s\n", $error['property'], $error['value'], $error['message']);
     }
 
     killme($msg);
