@@ -86,7 +86,7 @@ EOF
         $this->assertEquals('the payload cannot be empty', (string) $response->getBody());
     }
 
-    public function testJSONErrors()
+    public function testJsonErrors()
     {
         $json_responses = [
             '{bad json'    => [400, 'Syntax error, malformed JSON'],
