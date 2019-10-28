@@ -6,7 +6,7 @@ services:
 php:
   - 7.2
 
-env: ENV_FILE=.env-travis EMAIL_TEST_PATH=$TRAVIS_BUILD_DIR/php-tests/emails
+env: ENV_FILE=.env-travis EMAIL_TEST_PATH=$TRAVIS_BUILD_DIR/php-tests/emails CI=1
 
 before_install:
   - nvm install node
