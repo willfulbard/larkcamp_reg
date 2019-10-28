@@ -31,6 +31,17 @@ fieldset#root div.field-object {
     background-color: #eee;
 }
 
+fieldset#root_campers button.array-item-remove::after {
+    content: "Remove Camper";
+}
+
+fieldset#root_campers .array-item-add button::after {
+    content: "Add Camper";
+}
+
+fieldset#root_parking_passes .array-item-add button::after {
+    content: "Add Parking Pass";
+}
 
 .react-phone-number-input__icon img {
     vertical-align: baseline;

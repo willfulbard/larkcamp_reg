@@ -1,7 +1,8 @@
 {
     "uiSchema": {
-        "ui:description": { "__html": "<p>Please read <a href='http://www.larkcamp.com/campterms.htm' target='_blank'>Terms of Registration</a> before filling out this form.</p><p>You can submit your registration online here and we will hold your spot. First come, first served.</p><p><p><em>2020 Registration Is Now Open</em></p><p>Registrations are processed in the order they are received.</p><p>Registering by Mail:</p><p>Register now and your check will not be cashed or credit card run until January 2020<br>If you do not wish to register online, you can fill out and print out this form, or you can download a shorter PDF registration form (4 pages) at:<br><a href='http://www.larkcamp.com/regform.pdf' target='_blank'>2020 Mail In Registration Form</a> Mail a check or money order payable to Lark Camp or fill out your credit card information on the form:<br>Lark Camp, P.O. Box 1176, Mendocino, CA 95460 USA</p><p>Fields with a * are required fields.<br>When filling out this form please do not make any carriage returns or blank lines.<br>PLEASE DO NOT FILL OUT THIS FORM UNLESS YOU INTEND TO COMMIT TO YOUR RESERVATION.</p>" },
+        "ui:description": { "__html": "<p>Please read <a href='http://www.larkcamp.org/campterms.html' target='_blank'>Terms of Registration</a> before filling out this form.</p><p>Fill out this form to complete your registration for Lark Camp 2020 online. Please note that registrations are accepted in the order they are received; your camping preferences are processed on a “first come - first served” basis. Your early payment will not be cashed or charged until January 2020.</p><p><strong>Registering by Mail</strong></p><p>If you do not wish to register online, you can download a four-page PDF Registration Form to hand-fill at:<br><a href='http://www.larkcamp.org/regform.pdf' target='_blank'>2020 Mail In Registration Form</a><br>Mail your form with your credit card information, PayPal email address for invoicing, or a check, cashier's check, or money order payable to “Lark Camp” to:<br>Lark Camp Registration, PO Box 1724, Mendocino, CA 95460</p><p>Fields marked with an asterisk (*) are required.</p><p><strong>There are no refunds</strong>; please consider purchasing trip insurance if you know something could prevent your attendance.</p>" },
         "payer_billing_address": {
+            "ui:title": "Billing Address",
             "contentClassNames": "row",
             "street_address":       { "classNames": "col-xs-12 col-sm-12" },
             "city":                 { "classNames": "col-xs-12 col-sm-12"  },
@@ -9,37 +10,35 @@
             "zip_code":             { "classNames": "col-xs-6  col-sm-6"  },
             "country":              { "classNames": "col-xs-12 col-sm-6"  }
         },
-        "payer_email": {
-            "ui:help": "VERY IMPORTANT FOR ALL COMMUNICATIONS - If none must put NONE@NONE.COM"
-        },
         "payer_number": {
-            "ui:help": "If none put NONE",
             "ui:widget": "PhoneInput"
         },
         "payment_type": {
-            "ui:description": { "__html": "<p>Full Price - payment by credit card or Paypal</p><p>Discount Price - payment by personal check, bank check, or money order</p><p>All further payments must be made by the same method.<p>" }
+            "ui:description": { "__html": "<p>Full Price - payment by credit card or PayPal</p><p>Discount price - payment by personal check, cashier's check, or money order (Please note that any balance payments must be made by the same method.)</p>" }
         },
         "parking_passes": {
-            "ui:description": { "__html": "<p><strong>REQUIRED PARKING PASSES</strong><br>Pre-Purchase parking passes for Lark Camp $60.00 Discount Price ($62.00 Full Price)<br>Your parking pass will be given to you when you arrive at Lark Camp.</p><p><strong>ALL vehicles and trailers at camp are required to have a parking pass. If you have a car and a trailer you will need 2 parking passes.</strong></p><p>We are required to have less vehicles at camp. Carpooling is encouraged. If you can offer or need a ride please use the Lark Camp Carpool Webpage to organize carpools.</p><p>If you are not sure that you will bring a vehicle to camp, you can pre-purchase a parking pass anytime before June 22.<br>If you pre-purchase a parking pass and then do not bring a vehicle, contact us after camp for a refund.<br></p><p>You may purchase a parking pass on your way into Lark Camp by cash or check (no credit cards at camp) for $70.00.</p><p>If your vehicle, or combined vehicle and trailer, is over 20', call for availability before registering. There is an additional surcharge for long vehicles.</p>" }
+            "ui:description": { "__html": "<p>The Mendocino Woodlands asks us to carpool when possible to reduce the number of cars in the State Park. <a href='https://www.larkcamp.org/carpool.html' target='_blank'>Go to larkcamp.org to find out about sharing rides.</a></p><p><strong>ALL vehicles and trailers are required to have a parking pass.</strong><br><u>Mendocino Woodlands vehicle requirements:</u> If you have a car AND a trailer, you will need two (2) parking passes. If your vehicle, or combined vehicle and trailer, is over 20 feet long, call to ensure there is available space <u>before</u> you register.</p><ul><li>You can pre-purchase parking passes for a discounted price of $60 (full price = $62); you’ll receive your parking pass when you arrive at camp.</li><li>If you purchase your parking pass at camp, the cost will be $70 (note: NO credit cards accepted at that time).</li></ul>" }
         },
         "campers": {
+            "ui:title": "Camper Information",
+            "ui:help": "(click the blue + symbol to add additional campers' names)",
             "items": {
                 "age": {
                     "ui:help": "If registrant is under 18 please note age here."
                 },
                 "session": {
-                    "ui:description": { "__html": "<p>Full camp starts on Friday, July 26 at 3pm and ends Saturday morning August 3. The first half of camp starts on Friday, July 26 at 3pm and ends before noon on Tuesday, JULY 30. The second half of camp starts Tuesday noon on July 30 and ends Saturday morning August 3.</p><p>∆ \"Kid Special\" If you are paying for a child 11 or under, you can receive a discount rate by teaching a daily children's workshop at camp. <a href='http://www.larkcamp.com/kidworkshp.htm' target='_blank'>For More Information</a> about offering children's workshops.</p><ul><li>Full camp (adult): $784 ($764 discount price)</li><li>Full camp (11 or under): $596 ($576 discount price)</li><li>Half camp (adult): $596 ($586 discount price)</li><li>Half camp (11 or under): $484 ($474 discount price)</li></ul>" }
+                    "ui:description": { "__html": "<p><u>Full camp</u> begins Friday, July 31, 2020 at 3:00 pm, and ends Saturday, August 8 at 9:00am.<br><u>First half camp</u> begins Friday, July 31, 2020 at 3:00 pm and ends before noon on Tuesday, August 4.<br><u>Second half camp</u> begins at noon on Tuesday, August 4, 2020 and ends August 8 at 9:00 am.</p><p>You may either pay a 50% deposit or your full registration fee.</p><ul><li>Full camp (adult): $784 ($764 discount price)</li><li>Full camp (11 and under): $596 ($576 discount price)</li><li>Half camp (adult): $596 ($586 discount price)</li><li>Half camp (11 and under): $484 ($474 discount price)</li></ul>" }
                 },
                 "accomodations": {
                     "cabinmates": {
                         "ui:description": "Let us know and we will try to accommodate your request."
                     },
                     "tenting_area_preference": {
-                        "ui:description": { "__html": "<p>Fill in your tenting preference below. To see a map of camp click on the links to open another window. Area A-C are in <a href='http://www.larkcamp.com/giffiles/campgraphics/camp1.gif' target='_blank'>Camp One</a>, D-H are in <a href='http://www.larkcamp.com/giffiles/campgraphics/camp2.gif' target='_blank'>Camp Two</a>, I-L are in <a href='http://www.larkcamp.com/giffiles/campgraphics/camp3.gif' target='_blank'>Camp Three</a></p>" }
+                        "ui:description": { "__html": "<p>Fill in your tenting preference below. To see a map of camp click on the links to open another window. Area A-C are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp1.gif' target='_blank'>Camp One</a>, D-H are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp2.gif' target='_blank'>Camp Two</a>, I-L are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp3.gif' target='_blank'>Camp Three</a></p>" }
                     }
                 },
                 "meals": {
-                    "ui:description": { "__html": "<p>You must pay for 100% of your meal ticket at one time. Meal tickets must be paid for in full prior to camp. Food prices include sales tax. No meal tickets sold after June 22. You may buy individual meals at camp instead of buying a meal ticket (it costs more though).</p><p>Click here for <a href='http://www.larkcamp.com/AtCampMealTickets.pdf' target='_blank'>At Camp Meal Pricing</a></p><p><strong>Meal Pricing (adult / child 11 or under)</strong></p><ul><li>Full Camp, All Meals $406 / $304</li><li>Full Camp, Just Dinners: $230 / $166</li><li>Half Camp, All Meals: $230 / $166</li></ul>" }
+                    "ui:description": { "__html": "<p>Meal plans must be paid in full (we cannot accept partial payments) NO LATER THAN JUNE 20, 2020. Food prices include sales tax. You may buy individual meals (at a higher rate!) at camp if you would prefer not to purchase a full meal plan. (NOTE: You may only cook if you have a vehicle with a built-in kitchen. No white gas or propane stoves are allowed in the State Park.)</p><p>This is a significant savings over buying meals at camp.</p><p><strong>Meal Plan Pricing (adult / child 11 and under)</strong></p><ul><li>Full camp, all meals (breakfast, lunch &amp; dinner) $406 adults / $406 kids</li><li>Full camp, just dinners: $230 adults / $166 kids</li><li>Half camp, all meals: $230 adults / $166 kids</li> </ul>" }
                 }
             }
         },
@@ -56,7 +55,7 @@
             "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
-            "ui:description": { "__html": "<p>XXL: $16, all other sizes $14. All shirt prices include sales tax.<br><a href='https://www.larkcamp.com/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p>" }
+            "ui:description": { "__html": "<p>All sizes $14. Price includes sales tax.<br><a href='https://www.larkcamp.org/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p><p>Leave a comment if you want a fitted cut shirt</p>" }
         },
         "sweatshirt_sizes": {
             "contentClassNames": "row",
@@ -65,12 +64,11 @@
             "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
-            "ui:description": { "__html": "<p>XXL: $24, all other sizes $22.</p>" }
+            "ui:description": { "__html": "<p>All sizes $22.</p>" }
         },
         "lta_donation": {
-            "ui:description": { "__html": "<p><strong>MAKE A TAX DEDUCTIBLE DONATION</strong><br>Lark Camp identifies outstanding instructors some of which live a great distance from where Lark Camp is held. Funding is needed to bring instructors from large distances and other costs involving adding these people to the teaching staff.</p><p>Donations can also be made towards Lark Camp expenses just to help make ends meet.</p><p>You can donate to \"Friends Of Lark Camp\" specifically for helping to bring teachers that have extraordinary expenses to Lark Camp and Lark Camp expenses. Please go to the <a href='http://www.larkcamp.com/Donate.html' target='_blank'>\"Friends Of Lark Camp\"</a> Website for complete information. Donations to \"Friends Of Lark Camp\" is by check only.</p>" },
-            "ui:help": "To donate along with your camp reservation",
-            "ui:widget": "NaturalNumberInput"
+            "ui:description": { "__html": "<p><strong>DONATE TO LARK CAMP</strong><br>Until we receive our 501c3 status from the IRS, your donation is not tax deductible, but it is still welcome and needed! Donate to Lark Camp by going to: <a href='https://www.larkcamp.org/'>https://www.larkcamp.org/</a></p>" },
+            "ui:help": "To donate along with your camp reservation"
         },
         "woodlands_donation": {
             "ui:help": "This does not go to Lark Camp but benefits the Mendocino Woodlands",
@@ -233,7 +231,7 @@
             },
             "meals": {
                 "type": "object",
-                "title": "Meals",
+                "title": "Meal Plans",
                 "properties": {
                     "meal_plan": {
                         "type": "string",
@@ -285,17 +283,17 @@
         },
         "title": "Lark Camp Registration",
         "type": "object",
-        "required": ["payer_first_name", "payer_last_name", "payer_email", "payer_number"],
+        "required": ["payer_first_name", "payer_last_name", "payer_email", "payer_number", "payment_type"],
         "properties": {
             "payer_first_name": {
                 "type": "string",
                 "maxLength": 50,
-                "title": "Payer First Name"
+                "title": "Billing First Name"
             },
             "payer_last_name": {
                 "type": "string",
                 "maxLength": 50,
-                "title": "Payer Last Name"
+                "title": "Billing Last Name"
             },
             "payer_billing_address": { 
                 "$ref": "#/definitions/address"
@@ -355,7 +353,7 @@
                         },
                         "session": {
                             "type": "string",
-                            "title": "Which session will you be attending?",
+                            "title": "When will you attend?",
                             "enum": [
                                 "Full camp",
                                 "Half camp (1st half)",
@@ -400,11 +398,6 @@
                 "type": "integer",
                 "minimum": 0,
                 "title": "Donation to Lark Traditional Arts (Tax Deductible, Dollars)"
-            },
-            "woodlands_donation": {
-                "type": "integer",
-                "minimum": 0,
-                "title": "Donation to the Mendicino Woodlands (Tax Deductible, Dollars)"
             },
             "how_did_you_hear": {
                 "type": "string",
@@ -497,12 +490,12 @@
             {"*": [{"var": ["tshirt_sizes.medium", 0]}, 14]},
             {"*": [{"var": ["tshirt_sizes.large", 0]}, 14]},
             {"*": [{"var": ["tshirt_sizes.xl", 0]}, 14]},
-            {"*": [{"var": ["tshirt_sizes.xxl", 0]}, 16]},
+            {"*": [{"var": ["tshirt_sizes.xxl", 0]}, 14]},
             {"*": [{"var": ["sweatshirt_sizes.small", 0]}, 22]},
             {"*": [{"var": ["sweatshirt_sizes.medium", 0]}, 22]},
             {"*": [{"var": ["sweatshirt_sizes.large", 0]}, 22]},
             {"*": [{"var": ["sweatshirt_sizes.xl", 0]}, 22]},
-            {"*": [{"var": ["sweatshirt_sizes.xxl", 0]}, 24]},
+            {"*": [{"var": ["sweatshirt_sizes.xxl", 0]}, 22]},
             {"var": ["lta_donation", 0]},
             {"var": ["woodlands_donation", 0]}
         ]
