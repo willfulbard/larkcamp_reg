@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "php": "php -S 0.0.0.0:4000 -d sendmail_path=$(pwd)/php-tests/fakesendmail.sh -t public/",
-    "php-test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php php-tests",
+    "php-test": "./vendor/bin/phpunit --testdox --colors=always --bootstrap vendor/autoload.php php-tests",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
