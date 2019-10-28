@@ -5,15 +5,27 @@ import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
 import { AppState, Dollars } from './appTypes';
 import jsonLogic from 'json-logic-js';
+import PhoneInput from 'react-phone-number-input';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
 import PriceTicker from '../PriceTicker';
 
+import 'react-phone-number-input/style.css'
 import './App.css';
 
 class App extends React.Component {
     state: AppState = {
         status: 'fetching',
+    }
+
+    widgets: any = {
+        PhoneInput: (props: any) => (
+            <PhoneInput
+                country="US"
+                value={props.value}
+                onChange={(value: string) => props.onChange(value)}
+            />
+        ),
     }
 
     constructor(props = {}) {
@@ -53,6 +65,7 @@ class App extends React.Component {
     }
 
     onChange = ({formData}: IChangeEvent) => {
+        console.log(formData);
         this.setState({ formData });
     }
 
@@ -97,6 +110,7 @@ class App extends React.Component {
                         <Form
                             schema={this.state.config.dataSchema}
                             uiSchema={this.state.config.uiSchema}
+                            widgets={this.widgets}
                             fields={{DescriptionField: DescriptionField}}
                             ObjectFieldTemplate={ObjectFieldTemplate}
                             onChange={this.onChange}

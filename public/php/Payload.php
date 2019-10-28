@@ -4,6 +4,8 @@ namespace Responses;
 require 'JSON.php';
 
 use Exception;
+use Peridot\ObjectPath\ObjectPath;
+use JsonSchema\Entity\JsonPointer;
 
 class Payload
 {
@@ -41,19 +43,38 @@ class Payload
         $schema = $this->schema;
         $validator->validate($json, $schema);
 
-        $is_valid = $validator->isValid();
+        $valid = $validator->isValid();
 
-        if (!$is_valid) {
+        if (!$valid) {
             $this->validation_errors = $validator->getErrors();
         } else {
             $this->validation_errors = [];
         }
 
-        return $is_valid;
+        return $valid;
     }
 
     public function getValidationErrors() {
-        return $this->validation_errors;
+
+        $validation_errors = [];
+
+        // Add value to the error
+        foreach ($this->validation_errors as $error) {
+            $paths = new JsonPointer('#' . $error['pointer']);
+            $value = $this->json;
+
+            foreach ($paths->getPropertyPaths() as $key) {
+                if (is_array($value)) {
+                    $value = $value[$key];
+                } else {
+                    $value = $value->$key;
+                }
+            }
+
+            $error['value'] = $value;
+            $validation_errors[] = $error;
+        }
+        return $validation_errors;
     }
 }
 

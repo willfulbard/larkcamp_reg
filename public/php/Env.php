@@ -6,8 +6,6 @@ function read_env_file() {
 
     if (getenv('ENV_FILE')) $filename = getenv('ENV_FILE');
 
-    $filename = '.env-travis';
-
     $dotenv = Dotenv::create(__DIR__ . "/../../", $filename);
 
     $dotenv->load();

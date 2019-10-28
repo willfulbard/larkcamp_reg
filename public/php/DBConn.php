@@ -22,8 +22,28 @@ class Database extends PDO
             PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
-        /* Connect to DB */
-        parent::__construct(getenv('PDO_DSN'), getenv('PDO_USER'), getenv('PDO_PASS'), $pdo_options);
+        try {
+            /* Connect to DB */
+            parent::__construct(getenv('PDO_DSN'), getenv('PDO_USER'), getenv('PDO_PASS'), $pdo_options);
+        } catch (\PDOException $e) {
+            echo 'Message: ' .  join("\n",
+                [
+                    $e->getMessage(),
+                    "dsn: " . getenv('PDO_DSN'),
+                    "user: " . getenv('PDO_USER'),
+                    "pass: " . getenv('PDO_PASS'),
+                ]
+            );
+
+            throw new \PDOException(join("\n",
+                $array = [
+                    $e->getMessage(),
+                    "dsn: " . getenv('PDO_DSN'),
+                    "user: " . getenv('PDO_USER'),
+                    "pass: " . getenv('PDO_PASS'),
+                ]
+            ));
+        }
     }
 }
 

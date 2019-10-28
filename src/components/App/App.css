@@ -30,3 +30,8 @@ fieldset#root div.field-object {
     padding: 1em;
     background-color: #eee;
 }
+
+
+.react-phone-number-input__icon img {
+    vertical-align: baseline;
+}
