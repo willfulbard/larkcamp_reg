@@ -8,24 +8,33 @@ import jsonLogic from 'json-logic-js';
 import PhoneInput from 'react-phone-number-input';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
+import NaturalNumberInput from '../NaturalNumberInput';
 import PriceTicker from '../PriceTicker';
 
 import 'react-phone-number-input/style.css'
 import './App.css';
 
+// TODO(evinism): Make this better typed
+const widgetMap: any = {
+    PhoneInput: (props: any) => (
+        <PhoneInput
+            country="US"
+            value={props.value}
+            onChange={(value: string) => props.onChange(value)}
+        />
+    ),
+    NaturalNumberInput: (props: any) => (
+        <NaturalNumberInput
+            value={props.value}
+            onChange={(value: string) => props.onChange(value)}
+        />
+    ),
+}
+
+
 class App extends React.Component {
     state: AppState = {
         status: 'fetching',
-    }
-
-    widgets: any = {
-        PhoneInput: (props: any) => (
-            <PhoneInput
-                country="US"
-                value={props.value}
-                onChange={(value: string) => props.onChange(value)}
-            />
-        ),
     }
 
     constructor(props = {}) {
@@ -110,7 +119,7 @@ class App extends React.Component {
                         <Form
                             schema={this.state.config.dataSchema}
                             uiSchema={this.state.config.uiSchema}
-                            widgets={this.widgets}
+                            widgets={widgetMap}
                             fields={{DescriptionField: DescriptionField}}
                             ObjectFieldTemplate={ObjectFieldTemplate}
                             onChange={this.onChange}
