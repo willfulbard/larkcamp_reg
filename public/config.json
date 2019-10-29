@@ -51,28 +51,30 @@
         },
         "tshirt_sizes": {
             "contentClassNames": "row",
-            "small":  { "classNames": "col-xs-4 col-sm-2" },
-            "medium": { "classNames": "col-xs-4 col-sm-2" },
-            "large":  { "classNames": "col-xs-4 col-sm-2" },
-            "xl":     { "classNames": "col-xs-4 col-sm-2" },
-            "xxl":    { "classNames": "col-xs-4 col-sm-2" },
+            "small":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput"},
+            "medium": { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "ui:description": { "__html": "<p>XXL: $16, all other sizes $14. All shirt prices include sales tax.<br><a href='https://www.larkcamp.com/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p>" }
         },
         "sweatshirt_sizes": {
             "contentClassNames": "row",
-            "small":  { "classNames": "col-xs-4 col-sm-2" },
-            "medium": { "classNames": "col-xs-4 col-sm-2" },
-            "large":  { "classNames": "col-xs-4 col-sm-2" },
-            "xl":     { "classNames": "col-xs-4 col-sm-2" },
-            "xxl":    { "classNames": "col-xs-4 col-sm-2" },
+            "small":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "medium": { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
+            "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "ui:description": { "__html": "<p>XXL: $24, all other sizes $22.</p>" }
         },
         "lta_donation": {
             "ui:description": { "__html": "<p><strong>MAKE A TAX DEDUCTIBLE DONATION</strong><br>Lark Camp identifies outstanding instructors some of which live a great distance from where Lark Camp is held. Funding is needed to bring instructors from large distances and other costs involving adding these people to the teaching staff.</p><p>Donations can also be made towards Lark Camp expenses just to help make ends meet.</p><p>You can donate to \"Friends Of Lark Camp\" specifically for helping to bring teachers that have extraordinary expenses to Lark Camp and Lark Camp expenses. Please go to the <a href='http://www.larkcamp.com/Donate.html' target='_blank'>\"Friends Of Lark Camp\"</a> Website for complete information. Donations to \"Friends Of Lark Camp\" is by check only.</p>" },
-            "ui:help": "To donate along with your camp reservation"
+            "ui:help": "To donate along with your camp reservation",
+            "ui:widget": "NaturalNumberInput"
         },
         "woodlands_donation": {
-            "ui:help": "This does not go to Lark Camp but benefits the Mendocino Woodlands"
+            "ui:help": "This does not go to Lark Camp but benefits the Mendocino Woodlands",
+            "ui:widget": "NaturalNumberInput"
         }
     },
     "dataSchema": {
