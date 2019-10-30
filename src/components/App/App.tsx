@@ -128,7 +128,11 @@ class App extends React.Component {
                             formData={this.state.formData}
                             transformErrors={this.transformErrors}
                             // liveValidate={true}
-                        />
+                        >
+                            <div>
+                                <button type="submit" className="btn btn-info">Submit Registration</button>
+                            </div>
+                        </Form>
                         <PriceTicker price={this.getPrice()} />
                     </section>
                 );  
