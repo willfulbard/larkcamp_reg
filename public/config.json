@@ -38,7 +38,7 @@
                     }
                 },
                 "meals": {
-                    "ui:description": { "__html": "<p>Meal plans must be paid in full (we cannot accept partial payments) NO LATER THAN JUNE 20, 2020. Food prices include sales tax. You may buy individual meals (at a higher rate!) at camp if you would prefer not to purchase a full meal plan. (NOTE: You may only cook if you have a vehicle with a built-in kitchen. No white gas or propane stoves are allowed in the State Park.)</p><p>This is a significant savings over buying meals at camp.</p><p><strong>Meal Plan Pricing (adult / child 11 and under)</strong></p><ul><li>Full camp, all meals (breakfast, lunch &amp; dinner) $406 adults / $406 kids</li><li>Full camp, just dinners: $230 adults / $166 kids</li><li>Half camp, all meals: $230 adults / $166 kids</li> </ul>" }
+                    "ui:description": { "__html": "<p>Meal plans must be paid in full (we cannot accept partial payments) NO LATER THAN JUNE 20, 2020. Food prices include sales tax. You may buy individual meals (at a higher rate!) at camp if you would prefer not to purchase a full meal plan. (NOTE: You may only cook if you have a vehicle with a built-in kitchen. No white gas or propane stoves are allowed in the State Park.)</p><p>This is a significant savings over buying meals at camp.</p><p><strong>Meal Plan Pricing (adult / child 11 and under)</strong></p><ul><li>Full camp, all meals (breakfast, lunch &amp; dinner) $405 adults / $304 kids</li><li>Full camp, just dinners: $221 adults / $162 kids</li><li>Half camp, all meals: $215 adults / $154 kids</li> </ul>" }
                 }
             }
         },
@@ -55,7 +55,7 @@
             "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
-            "ui:description": { "__html": "<p>All sizes $14. Price includes sales tax.<br><a href='https://www.larkcamp.org/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p><p>Leave a comment if you want a fitted cut shirt</p>" }
+            "ui:description": { "__html": "<p>All sizes $14. Price includes sales tax.<br><a href='https://www.larkcamp.org/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p><p>T-shirts are standard boxy cut; if you want a fitted t-shirt, let us know in the comments box below.</p>" }
         },
         "sweatshirt_sizes": {
             "contentClassNames": "row",
@@ -67,8 +67,7 @@
             "ui:description": { "__html": "<p>All sizes $22.</p>" }
         },
         "lta_donation": {
-            "ui:description": { "__html": "<p><strong>DONATE TO LARK CAMP</strong><br>Until we receive our 501c3 status from the IRS, your donation is not tax deductible, but it is still welcome and needed! Donate to Lark Camp by going to: <a href='https://www.larkcamp.org/'>https://www.larkcamp.org/</a></p>" },
-            "ui:help": "To donate along with your camp reservation"
+            "ui:description": { "__html": "<p><strong>DONATE TO LARK CAMP</strong><br>Lark Traditional Arts (EIN 83-2424940) is the nonprofit organization that runs Lark Camp. If you would like to support camp with a tax-deductible donation in addition to your registration today, please use the space below to add the amount. Or you may go to: <a href='https://www.larkcamp.org/'>https://www.larkcamp.org/</a></p>" }
         },
         "woodlands_donation": {
             "ui:help": "This does not go to Lark Camp but benefits the Mendocino Woodlands",
@@ -427,10 +426,10 @@
                             ]},
                             { "if": [
                                 { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 406,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 230,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 230,
+                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 405,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 221,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 215,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 215,
                                 0
                             ]}
                         ]},
@@ -448,9 +447,9 @@
                             { "if": [
                                 { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
                                 { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 304,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 166,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 166,
+                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 162,
+                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 154,
+                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 154,
                                 0
                             ]}
                         ]}
