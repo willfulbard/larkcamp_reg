@@ -34,17 +34,17 @@ describe('Pricing Logic', () => {
     ['Paypal', 'Half camp (1st half)', 'None', 3, 0, 0],
   
     // Different ages for different meals
-    ['Paypal', 'Full camp', 'Full Camp, All Meals', 18, 0, 784 + 406],
+    ['Paypal', 'Full camp', 'Full Camp, All Meals', 18, 0, 784 + 405],
     ['Paypal', 'Full camp', 'Full Camp, All Meals', 11, 0, 596 + 304],
     ['Paypal', 'Full camp', 'Full Camp, All Meals', 3, 0, 304],
 
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 18, 0, 784 + 230],
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 11, 0, 596 + 166],
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 3, 0, 166],
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 18, 0, 784 + 221],
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 11, 0, 596 + 162],
+    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 3, 0, 162],
 
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 18, 0, 596 + 230],
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 11, 0, 484 + 166],
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 3, 0, 166],
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 18, 0, 596 + 215],
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 11, 0, 484 + 154],
+    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 3, 0, 154],
   
     // Parking Pass
     ['Paypal', 'Full camp', 'None', 18, 1, 784 + 62],
