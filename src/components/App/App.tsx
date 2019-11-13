@@ -85,6 +85,7 @@ class App extends React.Component {
         if(this.state.status === 'fetching'){
             throw new Error('Got price while still fetching');
         }
+
         const cost = jsonLogic.apply(
             this.state.config.pricingLogic,
             this.state.formData

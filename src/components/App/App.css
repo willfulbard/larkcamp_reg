@@ -19,7 +19,7 @@
 }
 
 form {
-    max-width: 600px;
+    padding: 15px;
     text-align: left;
     margin-left: auto;
     margin-right: auto;
@@ -31,16 +31,16 @@ fieldset#root div.field-object {
     background-color: #eee;
 }
 
-fieldset#root_campers button.array-item-remove::after {
-    content: "Remove Camper";
+fieldset#root_campers button::after {
+    content: " Camper";
 }
 
-fieldset#root_campers .array-item-add button::after {
-    content: "Add Camper";
+fieldset#root_campers .accomodations button::after {
+    content: " Name";
 }
 
 fieldset#root_parking_passes .array-item-add button::after {
-    content: "Add Parking Pass";
+    content: " Parking Pass";
 }
 
 .react-phone-number-input__icon img {

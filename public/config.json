@@ -21,15 +21,16 @@
         },
         "campers": {
             "ui:title": "Camper Information",
-            "ui:help": "(click the blue + symbol to add additional campers' names)",
+            "ui:help": "(click the blue + symbol to add additional campers)",
+            "ui:options": {
+                "orderable": false
+            },
             "items": {
-                "age": {
-                    "ui:help": "If registrant is under 18 please note age here."
-                },
                 "session": {
                     "ui:description": { "__html": "<p><u>Full camp</u> begins Friday, July 31, 2020 at 3:00 pm, and ends Saturday, August 8 at 9:00am.<br><u>First half camp</u> begins Friday, July 31, 2020 at 3:00 pm and ends before noon on Tuesday, August 4.<br><u>Second half camp</u> begins at noon on Tuesday, August 4, 2020 and ends August 8 at 9:00 am.</p><p>You may either pay a 50% deposit or your full registration fee.</p><ul><li>Full camp (adult): $784 ($764 discount price)</li><li>Full camp (11 and under): $596 ($576 discount price)</li><li>Half camp (adult): $596 ($586 discount price)</li><li>Half camp (11 and under): $484 ($474 discount price)</li></ul>" }
                 },
                 "accomodations": {
+                    "classNames": "accomodations",
                     "cabinmates": {
                         "ui:description": "Let us know and we will try to accommodate your request."
                     },
@@ -151,6 +152,7 @@
                         "enum": ["Cabin", "Tent", "Vehicle Camping"]
                     }
                 },
+                "required": ["camp_preference", "accomodation_preference"],
                 "dependencies": {
                     "accomodation_preference": {
                         "oneOf": [
@@ -161,7 +163,7 @@
                                     },
                                     "cabinmates": {
                                         "type": "array",
-                                        "title": "Who would you like to be in a cabin with? (if in a cabin)",
+                                        "title": "Who would you like to be in a cabin with?",
                                         "items": {
                                             "type": "string",
                                             "maxLength": 50,
@@ -177,7 +179,7 @@
                                     },
                                     "tent_or_vehicle_mates": {
                                         "type": "array",
-                                        "title": "Who will be in your tent/vehicle with you?",
+                                        "title": "If sharing, who will be in your tent with you?",
                                         "items": {
                                             "type": "string",
                                             "maxLength": 50,
@@ -214,13 +216,25 @@
                                         "enum": ["Vehicle Camping"]
                                     },
                                     "tent_or_vehicle_mates": {
+                                        "title": "If sharing, who will be in your vehicle with you?",
                                         "type": "array",
-                                        "title": "Who will be in your tent/vehicle with you? (if in a vehicle or tent)",
                                         "items": {
                                             "type": "string",
                                             "maxLength": 50,
                                             "title": "Name"
                                         }
+                                    },
+                                    "vehicle_make": {
+                                        "title": "What is the make/model of your camping vehicle?",
+                                        "type": "string",
+                                        "maxLength": 50
+                                    },
+                                    "vehicle_length": {
+                                        "title": "How many linear feet is your vehicle?",
+                                        "type": "integer",
+                                        "minimum": 10,
+                                        "maximum": 25,
+                                        "default": 15
                                     }
                                 }
                             }
@@ -235,22 +249,30 @@
                     "meal_plan": {
                         "type": "string",
                         "title": "What meals will you purchase?",
-                        "enum": [
+                        "enumNames": [
                             "None",
                             "Full Camp, All Meals",
                             "Full Camp, Just Dinners",
                             "Half Camp (first half), All Meals",
                             "Half Camp (second half), All Meals"
+                        ],
+                        "enum": [
+                            "",
+                            "F",
+                            "D",
+                            "A",
+                            "B"
                         ]
                     }
                 },
+                "required": ["meal_plan"],
                 "dependencies": {
                     "meal_plan": {
                         "oneOf": [
                             {
                                 "properties": {
                                     "meal_plan": {
-                                        "enum": ["None"]
+                                        "enum": [""]
                                     }
                                 }
                             },
@@ -258,19 +280,24 @@
                                 "properties": {
                                     "meal_plan": {
                                         "enum": [
-                                            "Full Camp, All Meals",
-                                            "Full Camp, Just Dinners",
-                                            "Half Camp (first half), All Meals",
-                                            "Half Camp (second half), All Meals"
+                                            "F",
+                                            "D",
+                                            "A",
+                                            "B"
                                         ]
                                     },
                                     "meal_type": {
                                         "type": "string",
                                         "title": "What types of meals do you want?",
-                                        "enum": [
+                                        "enumNames": [
                                             "Non-Vegetarian",
                                             "Vegetarian",
                                             "Vegan"
+                                        ],
+                                        "enum": [
+                                            "O",
+                                            "V",
+                                            "E"
                                         ]
                                     }
                                 }
@@ -282,7 +309,10 @@
         },
         "title": "Lark Camp Registration",
         "type": "object",
-        "required": ["payer_first_name", "payer_last_name", "payer_email", "payer_number", "payment_type"],
+        "required": [
+            "payer_first_name", "payer_last_name", "payer_email", "payer_number", "payment_type",
+            "campers", "parking_passes", "tshirt_sizes", "sweatshirt_sizes" 
+        ],
         "properties": {
             "payer_first_name": {
                 "type": "string",
@@ -321,10 +351,10 @@
                 "title": "Campers",
                 "type": "array",
                 "minItems": 1,
-                "maxItems": 8,
+                "maxItems": 6,
                 "items": {
                     "type": "object",
-                    "required": ["first_name", "last_name"],
+                    "required": ["first_name", "last_name", "gender", "camper_address", "session", "accomodations", "meals"],
                     "properties": {
                         "first_name": {
                             "type": "string",
@@ -339,7 +369,8 @@
                         "gender": {
                             "type": "string",
                             "title": "Gender",
-                            "enum": ["Male", "Female", "Other"]
+                            "enumNames": ["Male", "Female", "Other"],
+                            "enum": ["M", "F", "O"]
                         },
                         "age": {
                             "type": "integer",
@@ -353,10 +384,15 @@
                         "session": {
                             "type": "string",
                             "title": "When will you attend?",
-                            "enum": [
+                            "enumNames": [
                                 "Full camp",
                                 "Half camp (1st half)",
                                 "Half camp (2nd half)"
+                            ],
+                            "enum": [
+                                "F",
+                                "A",
+                                "B"
                             ]
                         },
                         "accomodations": {
@@ -382,7 +418,8 @@
                             "maxLength": 50,
                             "title": "Whose name will the parking pass be in?"
                         }
-                    }
+                    },
+                    "required": ["holder"]
                 }
             },
             "tshirt_sizes": {
@@ -419,17 +456,9 @@
                     { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
                         { "+": [
                             { "if": [
-                                { "===": ["Full camp", {"var": "current.session"}]}, 784,
-                                { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 596,
-                                { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 596,
-                                0
-                            ]},
-                            { "if": [
-                                { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 405,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 221,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 215,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 215,
+                                { "===": ["F", {"var": "current.session"}]}, 784,
+                                { "===": ["A", {"var": "current.session"}]}, 596,
+                                { "===": ["B", {"var": "current.session"}]}, 596,
                                 0
                             ]}
                         ]},
@@ -437,19 +466,40 @@
                             { "if": [
                                 { ">": [{"var": ["current.age", 18]}, 3]},
                                 {  "if": [
-                                    { "===": ["Full camp", {"var": "current.session"}]}, 596,
-                                    { "===": ["Half camp (1st half)", {"var": "current.session"}]}, 484,
-                                    { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, 484,
+                                    { "===": ["F", {"var": "current.session"}]}, 596,
+                                    { "===": ["A", {"var": "current.session"}]}, 484,
+                                    { "===": ["B", {"var": "current.session"}]}, 484,
                                     0
                                 ]},
                                 0
-                            ]},
+                            ]}
+                        ]}
+                    ]}
+                ]},
+                0
+            ]},
+            {"reduce": [
+                {"var": "campers"},
+                {"+":[
+                    {"var": "accumulator"},
+                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
+                        { "+": [
                             { "if": [
-                                { "===": ["None", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["Full Camp, All Meals", {"var": "current.meals.meal_plan"}]}, 304,
-                                { "===": ["Full Camp, Just Dinners", {"var": "current.meals.meal_plan"}]}, 162,
-                                { "===": ["Half Camp (first half), All Meals", {"var": "current.meals.meal_plan"}]}, 154,
-                                { "===": ["Half Camp (second half), All Meals", {"var": "current.meals.meal_plan"}]}, 154,
+                                { "===": ["", {"var": "current.meals.meal_plan"}]}, 0,
+                                { "===": ["F", {"var": "current.meals.meal_plan"}]}, 405,
+                                { "===": ["D", {"var": "current.meals.meal_plan"}]}, 221,
+                                { "===": ["A", {"var": "current.meals.meal_plan"}]}, 215,
+                                { "===": ["B", {"var": "current.meals.meal_plan"}]}, 215,
+                                0
+                            ]}
+                        ]},
+                        { "+": [
+                            { "if": [
+                                { "===": ["", {"var": "current.meals.meal_plan"}]}, 0,
+                                { "===": ["F", {"var": "current.meals.meal_plan"}]}, 304,
+                                { "===": ["D", {"var": "current.meals.meal_plan"}]}, 162,
+                                { "===": ["A", {"var": "current.meals.meal_plan"}]}, 154,
+                                { "===": ["B", {"var": "current.meals.meal_plan"}]}, 154,
                                 0
                             ]}
                         ]}
@@ -467,9 +517,9 @@
                     {"+":[
                         {"var": "accumulator"},
                         {  "if": [
-                            { "===": ["Full camp", {"var": "current.session"}]}, -20,
-                            { "===": ["Half camp (1st half)", {"var": "current.session"}]}, -10,
-                            { "===": ["Half camp (2nd half)", {"var": "current.session"}]}, -10,
+                            { "===": ["F", {"var": "current.session"}]}, -20,
+                            { "===": ["A", {"var": "current.session"}]}, -10,
+                            { "===": ["B", {"var": "current.session"}]}, -10,
                             0
                         ]}
                     ]},
