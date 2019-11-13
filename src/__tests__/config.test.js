@@ -21,33 +21,33 @@ describe('Pricing Logic', () => {
   // [Payment type, camp duration, meals, age, # parking passes]
   const truthTable = [
     // Discount logic
-    ['Check', 'Full camp', 'None', , 0, 764],
-    ['Paypal', 'Full camp', 'None', , 0, 784],
-    ['Credit Card', 'Full camp', 'None', , 0, 784],
+    ['Check', 'F', '', , 0, 764],
+    ['Paypal', 'F', '', , 0, 784],
+    ['Credit Card', 'F', '', , 0, 784],
   
     // Different ages across different camp types
-    ['Paypal', 'Full camp', 'None', 18, 0, 784],
-    ['Paypal', 'Full camp', 'None', 11, 0, 596],
-    ['Paypal', 'Full camp', 'None', 3, 0, 0],
-    ['Paypal', 'Half camp (1st half)', 'None', 18, 0, 596],
-    ['Paypal', 'Half camp (1st half)', 'None', 11, 0, 484],
-    ['Paypal', 'Half camp (1st half)', 'None', 3, 0, 0],
+    ['Paypal', 'F', '', 18, 0, 784],
+    ['Paypal', 'F', '', 11, 0, 596],
+    ['Paypal', 'F', '', 3, 0, 0],
+    ['Paypal', 'A', '', 18, 0, 596],
+    ['Paypal', 'A', '', 11, 0, 484],
+    ['Paypal', 'A', '', 3, 0, 0],
   
     // Different ages for different meals
-    ['Paypal', 'Full camp', 'Full Camp, All Meals', 18, 0, 784 + 405],
-    ['Paypal', 'Full camp', 'Full Camp, All Meals', 11, 0, 596 + 304],
-    ['Paypal', 'Full camp', 'Full Camp, All Meals', 3, 0, 304],
+    ['Paypal', 'F', 'F', 18, 0, 784 + 405],
+    ['Paypal', 'F', 'F', 11, 0, 596 + 304],
+    ['Paypal', 'F', 'F', 3, 0, 304],
 
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 18, 0, 784 + 221],
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 11, 0, 596 + 162],
-    ['Paypal', 'Full camp', 'Full Camp, Just Dinners', 3, 0, 162],
+    ['Paypal', 'F', 'D', 18, 0, 784 + 221],
+    ['Paypal', 'F', 'D', 11, 0, 596 + 162],
+    ['Paypal', 'F', 'D', 3, 0, 162],
 
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 18, 0, 596 + 215],
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 11, 0, 484 + 154],
-    ['Paypal', 'Half camp (1st half)', 'Half Camp (first half), All Meals', 3, 0, 154],
+    ['Paypal', 'A', 'A', 18, 0, 596 + 215],
+    ['Paypal', 'A', 'A', 11, 0, 484 + 154],
+    ['Paypal', 'A', 'A', 3, 0, 154],
   
     // Parking Pass
-    ['Paypal', 'Full camp', 'None', 18, 1, 784 + 62],
+    ['Paypal', 'F', 'None', 18, 1, 784 + 62],
   ];
 
   truthTable.forEach((entry) => {

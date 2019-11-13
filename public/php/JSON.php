@@ -41,6 +41,11 @@ class JSON
 
         return $results;
     }
+
+    public function stringify($any)
+    {
+        return json_encode($any);
+    }
 }
 
 ?>

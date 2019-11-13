@@ -11,6 +11,8 @@ class Payload
 {
     public $payload;
     public $json;
+    public $config;
+
     protected $schema;
     protected $json_parser;
     protected $validation_errors;
@@ -27,6 +29,7 @@ class Payload
 
         try {
             $this->json = $this->json_parser->parse($this->payload);
+            $this->config = $this->json_parser->parse(file_get_contents(__DIR__ . '/../config.json'));
         } catch (Exception $e) {
             throw new PayloadException('JSON error - ' . $e->getMessage());
         }
@@ -66,12 +69,14 @@ class Payload
             foreach ($paths->getPropertyPaths() as $key) {
                 if (is_array($value)) {
                     $value = $value[$key];
-                } else {
+                } else if (method_exists($value, $key)) {
                     $value = $value->$key;
+                } else {
+                    $value = $key;
                 }
             }
 
-            $error['value'] = $value;
+            $error['value'] = '!value';
             $validation_errors[] = $error;
         }
         return $validation_errors;
