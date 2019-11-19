@@ -134,7 +134,8 @@ EOF
 
     public function testGoodSubmit()
     {
-        $json_body = exec(getcwd() . '/php-tests/generate-random-reg.js');
+        $cwd = getcwd();
+        $json_body = exec("$cwd/php-tests/generate-random-reg.js");
 
         // check posting
         $response = $this->http->post('/register.php', [
@@ -157,24 +158,43 @@ EOF
 
         $this->assertEquals($body_obj, $data_obj);
 
-        // check that it sent mail
-        $email_assertions = [
-            "To:\s*{$_ENV['MAIL_TO_NAME']}"
-                => 'email message was not to the correct person',
-            "From:\s*{$_ENV['MAIL_FROM_NAME']}"
-                => 'email message was not from the correct person',
-            "Subject:\s*Registration\s*From"
-                => 'email message did not have the correct subject',
-        ];
-
-        $cwd = getcwd();
+        // Test Email
         $contents = '';
-        while (!$contents) {
+        $i = 0;
+        while (!$contents && $i < 5) {
             $contents = file_get_contents("$cwd/php-tests/emails/message");
+            $i++;
+            sleep(1);
         }
+        $this->assertNotEquals("", $contents, 'Email did not send');
 
-        foreach($email_assertions as $regex => $msg) {
-            $this->assertRegExp("/$regex/", $contents, $msg);
-        }
+
+        $raw_email_json = exec("$cwd/php-tests/read-test-email.js");
+
+        $email = $json_parser->parse($raw_email_json);
+
+        $this->assertEquals($email->to->value[0]->name, $_ENV['MAIL_TO_NAME'], 'MailTo name is incorrect');
+        $this->assertEquals($email->to->value[0]->address, $_ENV['MAIL_TO_ADDRESS'], 'MailTo address is incorrect');
+
+        $this->assertEquals($email->from->value[0]->name, $_ENV['MAIL_FROM_NAME'], 'MailFrom name is incorrect');
+        $this->assertEquals($email->from->value[0]->address, $_ENV['MAIL_FROM_ADDRESS'], 'MailFrom address is incorrect');
+
+        $this->assertEquals(
+            $email->subject,
+            'Registration From ' . $body_obj->payer_first_name . ' ' . $body_obj->payer_last_name,
+            'Mail subject is incorrect'
+        );
+
+        $this->assertStringContainsString(
+            "\"{$body_obj->campers[0]->first_name}\"",
+            $email->text,
+            'email message did not contain the campers first name'
+        );
+
+        $this->assertStringContainsString(
+            "\"{$body_obj->campers[0]->last_name}\"",
+            $email->text,
+            'email message did not contain the campers last name'
+        );
     }
 }

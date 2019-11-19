@@ -2,6 +2,7 @@
 namespace LarkRegistration\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Peridot\ObjectPath\ObjectPath;
 
 require 'public/php/RegPayload.php';
 
@@ -44,7 +45,6 @@ class RegistrationPayloadClassTest extends TestCase
             $value = print_r($value, true); 
             $this->assertStringNotMatchesFormat('NOMETHOD %a', $value, "$value");
         }
-
     }
 
     public function testOnlyOneCamper(): void
@@ -59,9 +59,33 @@ class RegistrationPayloadClassTest extends TestCase
         $csv = $rp->toCSV();
         $arr = $rp->toCSVArray();
 
+        $path = new ObjectPath($json);
         // var_dump($json);
-        // var_dump($csv);
+        // var_dump($arr);
 
         $this->assertIsString($csv);
+        $this->assertEquals($arr[245], 1, 'CSV index 245 should be 1');
+        $this->assertTrue($arr[245] > 0, 'Total should be greater than 0');
+
+        // Check a couple values
+        $map = [
+            'payer_first_name' => 1,
+            'payer_last_name' => 2,
+            'payment_type' => 13,
+            'campers[0]->first_name' => 18,
+            'campers[0]->gender' => 27,
+        ];
+
+        foreach($map as $p => $index) {
+            $json_value = '';
+            $obj = $path->get($p);
+            if ($obj) {
+                $json_value = $obj->getPropertyValue();
+            }
+
+            $this->assertEquals($json_value, $arr[$index], "$p should be at CSV index $index");
+        }
+
+
     }
 }

@@ -39,10 +39,12 @@ try {
 try {
     $mail = new Mailer\Mailer();
 
+    $name = $payload->json->payer_first_name . ' ' . $payload->json->payer_last_name;
+
     $mail->send([
         'to'      => getenv('MAIL_TO_ADDRESS'),
-        'subject' => 'Registration From', // TODO: Add Name
-        'body'    => 'This is the message body', // TODO: Add Body in CSV format
+        'subject' => "Registration From $name",
+        'body'    => $payload->toCSV(),
     ]);
 } catch (Exception $e) {
     killme("Message could not be sent. Mailer Error: {$e->getMessage()}");
