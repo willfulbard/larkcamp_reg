@@ -10,9 +10,12 @@ interface FormDataState {
       uiSchema: UiSchema,
       dataSchema: JSONSchema6,
       pricingLogic: any,
+      pricing: any,
   }
   /* An opaque type is probably correct here. */
-  formData: unknown | undefined,
+  formData: {
+      campers: Array<Object>,
+  },
 }
 
 interface FetchingState {

@@ -8,6 +8,7 @@ class ValueFormatter
     protected $payload;
     protected $path;
     protected $config;
+    protected $cost;
 
     public function __construct($payload)
     {
@@ -15,6 +16,72 @@ class ValueFormatter
         $this->config = $this->payload->config;
 
         $this->path = new ObjectPath($payload->json);
+    }
+
+    public function getCost() {
+        if ($this->cost) return $this->cost; // singleton
+
+        $pricing_logic = $this->config->pricingLogic;
+        $reg = $this->payload->json;
+
+
+        $data = [
+            'registration' => $reg,
+            'pricing' => $this->config->pricing,
+        ];
+
+        $cost = new \stdClass; 
+
+        $cost->campers = array_map(
+            function ($c) use ($data, $pricing_logic) {
+                $data['camper'] = $c;
+
+                return \JWadhams\JsonLogic::apply(
+                    $pricing_logic->camper,
+                    $data
+                );
+            },
+            $reg->campers
+        );
+
+        $cost->meals = array_map(
+            function ($c) use ($data, $pricing_logic) {
+                $data['camper'] = $c;
+
+                return \JWadhams\JsonLogic::apply(
+                    $pricing_logic->meals,
+                    $data
+                );
+            },
+            $reg->campers
+        );
+
+        $cost->parking = \JWadhams\JsonLogic::apply(
+            $pricing_logic->parking,
+            $data
+        );
+
+        $cost->shirts = \JWadhams\JsonLogic::apply(
+            $pricing_logic->shirts,
+            $data
+        );
+
+        $cost->donation = \JWadhams\JsonLogic::apply(
+            $pricing_logic->donation,
+            $data
+        );
+
+        $cost->total = (
+            array_reduce($cost->campers, function($acc, $c) { return $acc + $c; }, 0) +
+            array_reduce($cost->meals, function($acc, $c) { return $acc + $c; }, 0) +
+            $cost->parking +
+            $cost->shirts +
+            $cost->donation
+        );
+
+        $this->cost = $cost;
+
+        return $cost;
     }
 
     public function get($p)
@@ -157,64 +224,41 @@ class ValueFormatter
 
     public function total()
     {
-        $pricing_logic = $this->get_pricing_logic();
 
-        $total = \JWadhams\JsonLogic::apply(
-            $pricing_logic,
-            get_object_vars($this->payload->json)
-        );
-
-        return $total;
+        return $this->getCost()->total;
     }
 
     public function tuition_full($p)
     {
-        $camper = $this->get($p);
-        $pricing_logic = $this->get_pricing_logic();
-
-        $tuition =  \JWadhams\JsonLogic::apply(
-            $pricing_logic->{'+'}[0],
-            [ 'campers' => array( $camper ) ]
-        );
-
-        $cc_charge = \JWadhams\JsonLogic::apply(
-            $pricing_logic->{'+'}[2],
-            [ 'payment_type' => $this->get('payment_type') ]
-        );
-
-        return $tuition + $cc_charge;
+        if (array_key_exists($p, $this->getCost()->campers))
+            return $this->getCost()->campers[$p];
     }
 
     public function tuition_meals($p)
     {
-        $camper = $this->get($p);
-        $pricing_logic = $this->get_pricing_logic();
-
-        return \JWadhams\JsonLogic::apply(
-            $pricing_logic->{'+'}[1],
-            [ 'campers' => array( $camper ) ]
-        );
+        if (array_key_exists($p, $this->getCost()->meals))
+            return $this->getCost()->meals[$p];
     }
 
     public function shirt($type, $size)
     {
         $count = $this->get($type . '_sizes->' . $size);
-        $pricing_logic = $this->get_pricing_logic();
+        $pricing_logic = $this->get_pricing_logic()->shirts;
         // starts at 4?
         $map = [
             'tshirt' => [
-                'small'  => 4,
-                'medium' => 5,
-                'large'  => 6,
-                'xl'     => 7,
-                'xxl'    => 8,
+                'small'  => 0,
+                'medium' => 1,
+                'large'  => 2,
+                'xl'     => 3,
+                'xxl'    => 4,
             ],
             'sweatshirt' => [
-                'small'  => 9,
-                'medium' => 10,
-                'large'  => 11,
-                'xl'     => 12,
-                'xxl'    => 13,
+                'small'  => 5,
+                'medium' => 6,
+                'large'  => 7,
+                'xl'     => 8,
+                'xxl'    => 9,
             ],
         ];
 

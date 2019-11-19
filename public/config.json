@@ -448,105 +448,122 @@
         }
     },
     "pricingLogic": {
-        "+": [
-            {"reduce": [
-                {"var": "campers"},
-                {"+":[
-                    {"var": "accumulator"},
-                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
-                        { "+": [
-                            { "if": [
-                                { "===": ["F", {"var": "current.session"}]}, 784,
-                                { "===": ["A", {"var": "current.session"}]}, 596,
-                                { "===": ["B", {"var": "current.session"}]}, 596,
-                                0
-                            ]}
-                        ]},
-                        { "+": [
-                            { "if": [
-                                { ">": [{"var": ["current.age", 18]}, 3]},
-                                {  "if": [
-                                    { "===": ["F", {"var": "current.session"}]}, 596,
-                                    { "===": ["A", {"var": "current.session"}]}, 484,
-                                    { "===": ["B", {"var": "current.session"}]}, 484,
-                                    0
-                                ]},
-                                0
-                            ]}
-                        ]}
-                    ]}
-                ]},
-                0
-            ]},
-            {"reduce": [
-                {"var": "campers"},
-                {"+":[
-                    {"var": "accumulator"},
-                    { "if": [{ ">": [{"var": ["current.age", 18]}, 11]}, 
-                        { "+": [
-                            { "if": [
-                                { "===": ["", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["F", {"var": "current.meals.meal_plan"}]}, 405,
-                                { "===": ["D", {"var": "current.meals.meal_plan"}]}, 221,
-                                { "===": ["A", {"var": "current.meals.meal_plan"}]}, 215,
-                                { "===": ["B", {"var": "current.meals.meal_plan"}]}, 215,
-                                0
-                            ]}
-                        ]},
-                        { "+": [
-                            { "if": [
-                                { "===": ["", {"var": "current.meals.meal_plan"}]}, 0,
-                                { "===": ["F", {"var": "current.meals.meal_plan"}]}, 304,
-                                { "===": ["D", {"var": "current.meals.meal_plan"}]}, 162,
-                                { "===": ["A", {"var": "current.meals.meal_plan"}]}, 154,
-                                { "===": ["B", {"var": "current.meals.meal_plan"}]}, 154,
-                                0
-                            ]}
-                        ]}
-                    ]}
-                ]},
-                0
-            ]},
-            { "if": [
-                { "===": [
-                    { "var": "payment_type" },
-                    "Check"
-                ]},
-                {"reduce": [
-                    {"var": "campers"},
-                    {"+":[
-                        {"var": "accumulator"},
-                        {  "if": [
-                            { "===": ["F", {"var": "current.session"}]}, -20,
-                            { "===": ["A", {"var": "current.session"}]}, -10,
-                            { "===": ["B", {"var": "current.session"}]}, -10,
+        "camper": {
+            "+": [
+                { "if": [{ ">": [{"var": ["camper.age", 18]}, 11]}, 
+                    { "+": [
+                        { "if": [
+                            { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_adult"},
+                            { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
+                            { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
                             0
                         ]}
                     ]},
+                    { "+": [
+                        { "if": [
+                            { ">": [{"var": ["camper.age", 18]}, 3]},
+                            {  "if": [
+                                { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_teen"},
+                                { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
+                                { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
+                                0
+                            ]},
+                            0
+                        ]}
+                    ]}
+                ]},
+                {  "if": [
+                    { "and": [
+                        {"===": ["F", {"var": "camper.session"}]},
+                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                    ]}, {"var": "pricing.check_discount_full"},
+                    { "and": [
+                        {"===": ["A", {"var": "camper.session"}]},
+                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                    ]}, {"var": "pricing.check_discount_half"},
+                    { "and": [
+                        { "===": ["B", {"var": "camper.session"}]},
+                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                    ]}, {"var": "pricing.check_discount_half"},
+                    0
+                ]}
+            ]
+        },
+        "meals": {
+            "+": [
+                { "if": [{ ">": [{"var": ["camper.age", 18]}, 11]}, 
+                    { "+": [
+                        { "if": [
+                            { "===": ["", {"var": "camper.meals.meal_plan"}]}, 0,
+                            { "===": ["F", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_adult_full"},
+                            { "===": ["D", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_adult_dinners"},
+                            { "===": ["A", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_adult_half"},
+                            { "===": ["B", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_adult_half"},
+                            0
+                        ]}
+                    ]},
+                    { "+": [
+                        { "if": [
+                            { "===": ["", {"var": "camper.meals.meal_plan"}]}, 0,
+                            { "===": ["F", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_teen_full"},
+                            { "===": ["D", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_teen_dinners"},
+                            { "===": ["A", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_teen_half"},
+                            { "===": ["B", {"var": "camper.meals.meal_plan"}]}, {"var": "pricing.meals_teen_half"},
+                            0
+                        ]}
+                    ]}
+                ]}
+            ]
+        },
+        "parking": {
+            "*": [
+                {"reduce": [
+                    {"var": "registration.parking_passes"},
+                    {"+":[
+                        {"var": "accumulator"},
+                        1
+                    ]},
                     0
                 ]},
-                0
-            ]},
-            {"reduce": [
-                {"var": "parking_passes"},
-                {"+":[
-                    {"var": "accumulator"},
-                    62
-                ]},
-                0
-            ]},
-            {"*": [{"var": ["tshirt_sizes.small", 0]}, 14]},
-            {"*": [{"var": ["tshirt_sizes.medium", 0]}, 14]},
-            {"*": [{"var": ["tshirt_sizes.large", 0]}, 14]},
-            {"*": [{"var": ["tshirt_sizes.xl", 0]}, 14]},
-            {"*": [{"var": ["tshirt_sizes.xxl", 0]}, 14]},
-            {"*": [{"var": ["sweatshirt_sizes.small", 0]}, 22]},
-            {"*": [{"var": ["sweatshirt_sizes.medium", 0]}, 22]},
-            {"*": [{"var": ["sweatshirt_sizes.large", 0]}, 22]},
-            {"*": [{"var": ["sweatshirt_sizes.xl", 0]}, 22]},
-            {"*": [{"var": ["sweatshirt_sizes.xxl", 0]}, 22]},
-            {"var": ["lta_donation", 0]},
-            {"var": ["woodlands_donation", 0]}
-        ]
+                {"var": "pricing.parking_pass"}
+            ]
+        },
+        "shirts": {
+            "+": [
+                {"*": [{"var": ["registration.tshirt_sizes.small", 0]}, {"var": "pricing.tshirt"}]},
+                {"*": [{"var": ["registration.tshirt_sizes.medium", 0]}, {"var": "pricing.tshirt"}]},
+                {"*": [{"var": ["registration.tshirt_sizes.large", 0]}, {"var": "pricing.tshirt"}]},
+                {"*": [{"var": ["registration.tshirt_sizes.xl", 0]}, {"var": "pricing.tshirt"}]},
+                {"*": [{"var": ["registration.tshirt_sizes.xxl", 0]}, {"var": "pricing.tshirt"}]},
+                {"*": [{"var": ["registration.sweatshirt_sizes.small", 0]}, {"var": "pricing.sweatshirt"}]},
+                {"*": [{"var": ["registration.sweatshirt_sizes.medium", 0]}, {"var": "pricing.sweatshirt"}]},
+                {"*": [{"var": ["registration.sweatshirt_sizes.large", 0]}, {"var": "pricing.sweatshirt"}]},
+                {"*": [{"var": ["registration.sweatshirt_sizes.xl", 0]}, {"var": "pricing.sweatshirt"}]},
+                {"*": [{"var": ["registration.sweatshirt_sizes.xxl", 0]}, {"var": "pricing.sweatshirt"}]}
+            ]
+        },
+        "donation" : {"var": ["lta_donation", 0]}
+    },
+    "pricing": {
+        "full_adult": 784,
+        "half_adult": 596,
+
+        "full_teen": 596,
+        "half_teen": 484,
+
+        "meals_adult_full": 405,
+        "meals_adult_half": 215,
+        "meals_adult_dinners": 221,
+
+        "meals_teen_full": 304,
+        "meals_teen_half": 154,
+        "meals_teen_dinners": 162,
+
+        "check_discount_full": -20,
+        "check_discount_half": -10,
+        "parking_pass": 65,
+
+        "tshirt": 14,
+        "sweatshirt": 22
     }
 }
