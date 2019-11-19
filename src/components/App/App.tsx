@@ -4,12 +4,13 @@ import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
 import { AppState, Dollars } from './appTypes';
-import jsonLogic from 'json-logic-js';
 import PhoneInput from 'react-phone-number-input';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
 import NaturalNumberInput from '../NaturalNumberInput';
 import PriceTicker from '../PriceTicker';
+
+import { calculatePrice } from '../utils';
 
 import 'react-phone-number-input/style.css'
 import './App.css';
@@ -86,17 +87,9 @@ class App extends React.Component {
             throw new Error('Got price while still fetching');
         }
 
-        const cost = jsonLogic.apply(
-            this.state.config.pricingLogic,
-            this.state.formData
-        );
-        if (typeof cost !== 'number') {
-            throw new Error(
-                `Pricing returned incorrect type (expected number, got ${typeof cost})`);
-        } else if (Math.floor(cost) !== cost) {
-            throw new Error(`Pricing returned non-natural number (got ${cost}).`);
-        }
-        return cost;
+        const costs = calculatePrice(this.state);
+
+        return costs.total;
     }
 
     transformErrors = (errors: Array<any>) => errors.map(error => {
