@@ -6,10 +6,10 @@
 mkdir -p ${EMAIL_TEST_PATH}
 
 name="${EMAIL_TEST_PATH}/message"
-echo "" > ${name}
+printf "" > ${name}
 
 while read line
 do
-    echo ${line} >> ${name}
+    printf "${line}\r\n" >> ${name}
 done
 exit 0

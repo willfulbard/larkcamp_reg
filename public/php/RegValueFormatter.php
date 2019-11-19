@@ -342,9 +342,12 @@ class ValueFormatter
 
         $json     = file_get_contents("http://ipinfo.io/$ip/geo");
         $json     = json_decode($json, true);
-        $country  = $json['country'];
-        $region   = $json['region'];
-        $city     = $json['city'];
+        $country  = '';
+        $region  = '';
+        $city  = '';
+        if (array_key_exists('country', $json)) $country = $json['country'];
+        if (array_key_exists('region', $json)) $region = $json['region'];
+        if (array_key_exists('city', $json)) $city = $json['city'];
 
         return "$city, $region, $country";
     }
