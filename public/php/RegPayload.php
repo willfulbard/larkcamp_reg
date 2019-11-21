@@ -15,6 +15,8 @@ function starts_with($haystack, $needle)
 
 class RegPayload extends Payload
 {
+    public $csv_config;
+
     public function validate(): bool {
         $schema = $this->config->dataSchema;
 
@@ -25,7 +27,7 @@ class RegPayload extends Payload
 
     public function toCSVArray(): array {
         // TODO: use the json-to-csv.json file to convert this to a CSV string
-        $config = $this->json_parser->parse(file_get_contents(__DIR__ . '/../../json-to-csv.json'));
+        $this->csv_config = $this->json_parser->parse(file_get_contents(__DIR__ . '/../../json-to-csv.json'));
 
         $formatter = new ValueFormatter($this);
 
@@ -42,7 +44,7 @@ class RegPayload extends Payload
             }
 
             return $formatter->get($field[0]);
-        }, $config);
+        }, $this->csv_config);
     }
 
     public function toCSV(): string {

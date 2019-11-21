@@ -45,6 +45,42 @@ class RegistrationPayloadClassTest extends TestCase
             $value = print_r($value, true); 
             $this->assertStringNotMatchesFormat('NOMETHOD %a', $value, "$value");
         }
+
+        $lengths = join([
+            'Full Camp',
+            'First Half Camp',
+            'Second Half Camp',
+        ], '|');
+
+        $deposits = join([
+            'Full Payment',
+            '50 Percent',
+        ], '|');
+
+        $meal_options = join([
+            'No Meals At This Time',
+            'Full Meals All Of Camp \$[0-9]+',
+            'Second Half Full Meals \$[0-9]+',
+            'First Half Full Meals \$[0-9]+',
+            'Just Dinners \$[0-9]+',
+        ], '|');
+
+        // Test values
+        $truths = [
+            [13, '/^(Full Price|Discount Price) - /'],
+            [14, '/^[0-9]+ \$[0-9]+$/'],
+            [28, '/^(N\/A|[0-9]+)$/'],
+            [51, "/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
+            [52, "/^($meal_options)$/"], // we can only be sure there is one camper
+        ];
+
+        foreach($truths as list($index, $regex)) {
+            $value = $arr[$index];
+            $desc = $rp->csv_config[$index][1]; // description out of json-to-csv.json
+
+            $msg = "value `$value` doesn't match $regex ([$index] $desc)";
+            $this->assertRegExp("$regex", $value, $msg);
+        }
     }
 
     public function testOnlyOneCamper(): void
