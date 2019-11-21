@@ -317,7 +317,7 @@
         "required": [
             "payer_first_name", "payer_last_name", "payer_email", "payer_number",
             "payment_type", "payment_full_or_deposit",
-            "campers", "parking_passes", "tshirt_sizes", "sweatshirt_sizes" 
+            "campers", "tshirt_sizes", "sweatshirt_sizes" 
         ],
         "properties": {
             "payer_first_name": {

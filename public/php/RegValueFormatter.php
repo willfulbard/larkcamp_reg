@@ -130,7 +130,11 @@ class ValueFormatter
 
     public function parking_passes_qty()
     {
-        $count = count($this->get('parking_passes'));
+        $passes = $this->get('parking_passes');
+
+        if (!$passes) return '';
+
+        $count = count($passes);
         $total = $this->getCost()->parking;
 
         return "$count $$total";
@@ -227,9 +231,13 @@ class ValueFormatter
     public function cabinmates($p) { return $this->join_field($p, 'cabinmates'); }
     public function tentmates($p)  { return $this->join_field($p, 'tentmates'); }
     public function parking_passes_names() {
+        $value = $this->get('parking_passes');
+
+        if (!$value) return '';
+
         return join(',', array_map(function($p) {
             return $p->holder;
-        }, $this->get('parking_passes')));
+        }, $value));
     }
     public function camper_number () { return ''; }
     public function camper_email  () { return ''; }

@@ -88,7 +88,12 @@ class RegistrationPayloadClassTest extends TestCase
         $json_body_string = exec(getcwd() . '/php-tests/generate-random-reg.js');
         $json_parser = new \JSON\JSON();
         $json = $json_parser->parse($json_body_string);
+
+        // Just first camper
         $json->campers = [ $json->campers[0] ];
+
+        // should handle no parking passes
+        $json->parking_passes = null;
 
         $rp = new \Responses\RegPayload(json_encode($json));
 
