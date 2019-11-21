@@ -119,9 +119,21 @@ class ValueFormatter
         return count($this->get('campers'));
     }
 
+    public function age($p)
+    {
+        $value = $this->get("campers[$p]->age");
+
+        if (!$value) return 'N/A';
+
+        return $value;
+    }
+
     public function parking_passes_qty()
     {
-        return count($this->get('parking_passes'));
+        $count = count($this->get('parking_passes'));
+        $total = $this->getCost()->parking;
+
+        return "$count $$total";
     }
 
     public function accomodations_camp($camp, $p)
@@ -230,14 +242,42 @@ class ValueFormatter
 
     public function tuition_full($p)
     {
-        if (array_key_exists($p, $this->getCost()->campers))
-            return $this->getCost()->campers[$p];
+        if (!array_key_exists($p, $this->getCost()->campers)) return '';
+
+        $cost = $this->getCost()->campers[$p];
+
+        $len_map = [
+            'F' => 'Full Camp',
+            'A' => 'First Half Camp',
+            'B' => 'Second Half Camp',
+        ];
+        $length = $len_map[$this->get("campers[$p]->session")];
+
+        $dep_map = [
+            'full' => 'Full Payment',
+            'deposit' => '50 Percent',
+        ];
+        $deposit = $dep_map[$this->get("payment_full_or_deposit")];
+
+        return "$length $deposit $$cost";
     }
 
     public function tuition_meals($p)
     {
-        if (array_key_exists($p, $this->getCost()->meals))
-            return $this->getCost()->meals[$p];
+        if (!array_key_exists($p, $this->getCost()->meals)) return '';
+
+        $cost = $this->getCost()->meals[$p];
+
+        $meal_map = [
+            ''  => 'No Meals At This Time',
+            'F' => 'Full Meals All Of Camp $' . $cost,
+            'D' => 'Second Half Full Meals $' . $cost,
+            'A' => 'First Half Full Meals $' . $cost,
+            'B' => 'Just Dinners $' . $cost,
+        ];
+
+        return $meal_map[$this->get("campers[$p]->meals->meal_plan")];
+
     }
 
     public function shirt($type, $size)

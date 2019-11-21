@@ -14,7 +14,10 @@
             "ui:widget": "PhoneInput"
         },
         "payment_type": {
-            "ui:description": { "__html": "<p>Full Price - payment by credit card or PayPal</p><p>Discount price - payment by personal check, cashier's check, or money order (Please note that any balance payments must be made by the same method.)</p>" }
+            "ui:description": { "__html": "<p>You get a discount per camper ($20 for full camp, $10 for half camp) if paying by check</p>" }
+        },
+        "payment_full_or_deposit": {
+            "ui:description": { "__html": "<p>Full Payment - Pay your full registration now</p><p>Deposit 50% Tuition - Reserve your space with a deposit, due June 20th.</p>" }
         },
         "parking_passes": {
             "ui:description": { "__html": "<p>The Mendocino Woodlands asks us to carpool when possible to reduce the number of cars in the State Park. <a href='https://www.larkcamp.org/carpool.html' target='_blank'>Go to larkcamp.org to find out about sharing rides.</a></p><p><strong>ALL vehicles and trailers are required to have a parking pass.</strong><br><u>Mendocino Woodlands vehicle requirements:</u> If you have a car AND a trailer, you will need two (2) parking passes. If your vehicle, or combined vehicle and trailer, is over 20 feet long, call to ensure there is available space <u>before</u> you register.</p><ul><li>You can pre-purchase parking passes for a discounted price of $60 (full price = $62); you’ll receive your parking pass when you arrive at camp.</li><li>If you purchase your parking pass at camp, the cost will be $70 (note: NO credit cards accepted at that time).</li></ul>" }
@@ -310,7 +313,8 @@
         "title": "Lark Camp Registration",
         "type": "object",
         "required": [
-            "payer_first_name", "payer_last_name", "payer_email", "payer_number", "payment_type",
+            "payer_first_name", "payer_last_name", "payer_email", "payer_number",
+            "payment_type", "payment_full_or_deposit",
             "campers", "parking_passes", "tshirt_sizes", "sweatshirt_sizes" 
         ],
         "properties": {
@@ -341,10 +345,27 @@
             "payment_type": {
                 "type": "string",
                 "title": "Payment Type",
-                "enum": [
+                "enumNames": [
                     "Credit Card",
                     "Paypal",
                     "Check"
+                ],
+                "enum": [
+                    "Full Price - payment by credit card or Paypal",
+                    "Full Price - payment by credit card or Paypal",
+                    "Discount Price - payment by check, bank check or money order"
+                ]
+            },
+            "payment_full_or_deposit": {
+                "type": "string",
+                "title": "Full Payment or Deposit Only",
+                "enum": [
+                    "full",
+                    "deposit"
+                ],
+                "enumNames": [
+                    "Full Payment",
+                    "50% Deposit"
                 ]
             },
             "campers": {
@@ -375,7 +396,7 @@
                         "age": {
                             "type": "integer",
                             "minimum": 0,
-                            "maximum": 100,
+                            "maximum": 17,
                             "title": "Age, if under 18"
                         },
                         "camper_address": { 
@@ -449,43 +470,51 @@
     },
     "pricingLogic": {
         "camper": {
-            "+": [
-                { "if": [{ ">": [{"var": ["camper.age", 18]}, 11]}, 
-                    { "+": [
-                        { "if": [
-                            { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_adult"},
-                            { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
-                            { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
-                            0
-                        ]}
-                    ]},
-                    { "+": [
-                        { "if": [
-                            { ">": [{"var": ["camper.age", 18]}, 3]},
-                            {  "if": [
-                                { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_teen"},
-                                { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
-                                { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
-                                0
+            "*": [
+                {
+                    "+": [
+                        { "if": [{ ">": [{"var": ["camper.age", 18]}, 11]}, 
+                            { "+": [
+                                { "if": [
+                                    { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_adult"},
+                                    { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
+                                    { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_adult"},
+                                    0
+                                ]}
                             ]},
+                            { "+": [
+                                { "if": [
+                                    { ">": [{"var": ["camper.age", 18]}, 3]},
+                                    {  "if": [
+                                        { "===": ["F", {"var": "camper.session"}]}, {"var": "pricing.full_teen"},
+                                        { "===": ["A", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
+                                        { "===": ["B", {"var": "camper.session"}]}, {"var": "pricing.half_teen"},
+                                        0
+                                    ]},
+                                    0
+                                ]}
+                            ]}
+                        ]},
+                        {  "if": [
+                            { "and": [
+                                {"===": ["F", {"var": "camper.session"}]},
+                                {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                            ]}, {"var": "pricing.check_discount_full"},
+                            { "and": [
+                                {"===": ["A", {"var": "camper.session"}]},
+                                {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                            ]}, {"var": "pricing.check_discount_half"},
+                            { "and": [
+                                { "===": ["B", {"var": "camper.session"}]},
+                                {"===": [{ "var": "registration.payment_type" }, "Check" ]}
+                            ]}, {"var": "pricing.check_discount_half"},
                             0
                         ]}
-                    ]}
-                ]},
+                    ]
+                },
                 {  "if": [
-                    { "and": [
-                        {"===": ["F", {"var": "camper.session"}]},
-                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
-                    ]}, {"var": "pricing.check_discount_full"},
-                    { "and": [
-                        {"===": ["A", {"var": "camper.session"}]},
-                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
-                    ]}, {"var": "pricing.check_discount_half"},
-                    { "and": [
-                        { "===": ["B", {"var": "camper.session"}]},
-                        {"===": [{ "var": "registration.payment_type" }, "Check" ]}
-                    ]}, {"var": "pricing.check_discount_half"},
-                    0
+                    { "===": ["deposit", {"var": "registration.payment_full_or_deposit"}]}, 0.5,
+                    1
                 ]}
             ]
         },
