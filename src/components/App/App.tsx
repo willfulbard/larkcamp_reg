@@ -133,10 +133,10 @@ class App extends React.Component {
                 break;
             case 'submitted':
                 pageContent = (
-                    <div className="reciept">
+                    <section className="reciept">
                         <h1>You're all set!</h1>
                         <span>See you at Lark in the Morning 2020!</span>
-                    </div>
+                    </section>
                 )
                 break;
             default: 
