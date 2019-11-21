@@ -147,7 +147,8 @@
                     "camp_preference": {
                         "type": "string",
                         "title": "Camp Preference",
-                        "enum": ["Camp 1", "Camp 2", "Camp 3"]
+                        "enum": ["Camp 1", "Camp 2", "Camp 3"],
+                        "default": "Camp 1"
                     },
                     "accomodation_preference": {
                         "type": "string",
@@ -265,7 +266,8 @@
                             "D",
                             "A",
                             "B"
-                        ]
+                        ],
+                        "default": ""
                     }
                 },
                 "required": ["meal_plan"],
@@ -346,15 +348,14 @@
                 "type": "string",
                 "title": "Payment Type",
                 "enumNames": [
-                    "Credit Card",
-                    "Paypal",
-                    "Check"
+                    "Check",
+                    "Credit Card or PayPal"
                 ],
                 "enum": [
-                    "Full Price - payment by credit card or Paypal",
-                    "Full Price - payment by credit card or Paypal",
-                    "Discount Price - payment by check, bank check or money order"
-                ]
+                    "Discount Price - payment by check, bank check or money order",
+                    "Full Price - payment by credit card or Paypal"
+                ],
+                "default": "Discount Price - payment by check, bank check or money order"
             },
             "payment_full_or_deposit": {
                 "type": "string",
@@ -366,7 +367,8 @@
                 "enumNames": [
                     "Full Payment",
                     "50% Deposit"
-                ]
+                ],
+                "default": "full"
             },
             "campers": {
                 "title": "Campers",
