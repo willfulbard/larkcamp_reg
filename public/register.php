@@ -60,4 +60,5 @@ function killme($str) {
     die();
 }
 
+echo "Registration successful";
 ?>

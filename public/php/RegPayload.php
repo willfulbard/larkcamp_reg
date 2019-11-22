@@ -48,6 +48,14 @@ class RegPayload extends Payload
     }
 
     public function toCSV(): string {
-        return json_encode($this->toCSVArray());
+        $f = fopen('php://memory', 'r+');
+        if (fputcsv($f, $this->toCSVArray()) === false) {
+            return false;
+        }
+
+        rewind($f);
+        $csv_line = stream_get_contents($f);
+
+        return rtrim($csv_line);
     }
 }
