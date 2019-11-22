@@ -47,10 +47,12 @@ class App extends React.Component {
     onSubmit = async ({formData}: any) => {
         this.setState({status: 'submitting'});
         try {
-            await fetch('/register.php', {
+            const res = await fetch('/register.php', {
                 method: 'POST',
                 body: JSON.stringify(formData),
             });
+            const text = await res.text();
+            console.log('response', res.status, text)
             this.setState({ status: 'submitted' });
         } catch {
             this.setState({ status: 'submissionError' });
@@ -72,6 +74,18 @@ class App extends React.Component {
             config,
             formData: undefined,
         });
+
+        // Because of the way that react-jsonschema-form works, this is the
+        // simplest way to "templatify" the pricing
+        Object.entries(config.pricing).forEach(
+            ([key, price]) => {
+                const els = document .getElementsByClassName("pricing_" + key);
+
+                for (let i = 0; i < els.length; i++) {
+                    els[i].innerHTML = '$' + price;
+                }
+            }
+        );
     }
 
     onChange = ({formData}: IChangeEvent) => {
