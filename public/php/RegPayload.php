@@ -48,14 +48,28 @@ class RegPayload extends Payload
     }
 
     public function toCSV(): string {
-        $f = fopen('php://memory', 'r+');
-        if (fputcsv($f, $this->toCSVArray()) === false) {
-            return false;
-        }
 
-        rewind($f);
-        $csv_line = stream_get_contents($f);
+        $values = array_map(
+            function($item) {
+                $mem = fopen('php://memory', 'r+');
 
-        return rtrim($csv_line);
+                if (fputcsv($mem, [$item]) === false) {
+                    return '""';
+                }
+
+                rewind($mem);
+                $csv_line = rtrim(stream_get_contents($mem));
+
+                fclose($mem);
+                if (!starts_with($csv_line, '"')) {
+                    return '"' . $csv_line . '"';
+                }
+
+                return $csv_line;
+            },
+            $this->toCSVArray()
+        );
+
+        return join(',', $values);
     }
 }
