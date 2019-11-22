@@ -28,14 +28,14 @@ class RegistrationPayloadClassTest extends TestCase
         $this->assertIsString($csv);
 
         // test accomdations formating
-        $this->assertContains($arr[29], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[29] . " isn't correct");
-        $this->assertContains($arr[30], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[30] . " isn't correct");
-        $this->assertContains($arr[31], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[31] . " isn't correct");
+        $this->assertContains($arr[32], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[29] . " isn't correct");
+        $this->assertContains($arr[33], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[30] . " isn't correct");
+        $this->assertContains($arr[34], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[31] . " isn't correct");
 
         $accomodations_map = [
-            'Camp 1' => 29,
-            'Camp 2' => 30,
-            'Camp 3' => 31,
+            'Camp 1' => 32,
+            'Camp 2' => 33,
+            'Camp 3' => 34,
         ];
         $value = $json->campers[0]->accomodations->camp_preference;
         $key = $accomodations_map[$value];
@@ -67,11 +67,11 @@ class RegistrationPayloadClassTest extends TestCase
 
         // Test values
         $truths = [
-            [13, '/^(Full Price|Discount Price) - /'],
-            [14, '/^[0-9]+ \$[0-9]+$/'],
-            [28, '/^(N\/A|[0-9]+)$/'],
-            [51, "/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
-            [52, "/^($meal_options)$/"], // we can only be sure there is one camper
+            [14, '/^(Full Price|Discount Price) - /'],
+            [17, '/^[0-9]+ \$[0-9]+$/'],
+            [31, '/^(N\/A|[0-9]+)$/'],
+            [55, "/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
+            [57, "/^($meal_options)$/"], // we can only be sure there is one camper
         ];
 
         foreach($truths as list($index, $regex)) {
@@ -88,7 +88,12 @@ class RegistrationPayloadClassTest extends TestCase
         $json_body_string = exec(getcwd() . '/php-tests/generate-random-reg.js');
         $json_parser = new \JSON\JSON();
         $json = $json_parser->parse($json_body_string);
+
+        // Just first camper
         $json->campers = [ $json->campers[0] ];
+
+        // should handle no parking passes
+        $json->parking_passes = null;
 
         $rp = new \Responses\RegPayload(json_encode($json));
 
@@ -100,16 +105,16 @@ class RegistrationPayloadClassTest extends TestCase
         // var_dump($arr);
 
         $this->assertIsString($csv);
-        $this->assertEquals($arr[245], 1, 'CSV index 245 should be 1');
-        $this->assertTrue($arr[245] > 0, 'Total should be greater than 0');
+        $this->assertEquals($arr[260], 1, 'CSV index 245 (box should be ticked...) should be 1');
+        $this->assertTrue($arr[259] > 0, 'Total should be greater than 0');
 
         // Check a couple values
         $map = [
-            'payer_first_name' => 1,
-            'payer_last_name' => 2,
-            'payment_type' => 13,
-            'campers[0]->first_name' => 18,
-            'campers[0]->gender' => 27,
+            'payer_first_name' => 2,
+            'payer_last_name' => 3,
+            'payment_type' => 14,
+            'campers[0]->first_name' => 21,
+            'campers[0]->gender' => 30,
         ];
 
         foreach($map as $p => $index) {

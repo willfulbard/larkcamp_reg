@@ -16,6 +16,7 @@ interface FormDataState {
   formData: {
       campers: Array<Object>,
   },
+  totals: any,
 }
 
 interface FetchingState {

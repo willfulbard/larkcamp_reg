@@ -142,7 +142,7 @@ EOF
             'body' => $json_body,
         ]);
 
-        $this->assertEquals('', (string) $response->getBody(), "Failed: " . $json_body);
+        $this->assertEquals('Registration successful', (string) $response->getBody(), "Failed: " . $json_body);
         $this->assertEquals(200, $response->getStatusCode());
 
         // check that it wrote to the DB

@@ -43,11 +43,33 @@ class RegPayload extends Payload
                 return "NOMETHOD $method(" . join(', ', $args) . ")";
             }
 
-            return $formatter->get($field[0]);
+            return strval($formatter->get($field[0]));
         }, $this->csv_config);
     }
 
     public function toCSV(): string {
-        return json_encode($this->toCSVArray());
+
+        $values = array_map(
+            function($item) {
+                $mem = fopen('php://memory', 'r+');
+
+                if (fputcsv($mem, [$item]) === false) {
+                    return '""';
+                }
+
+                rewind($mem);
+                $csv_line = rtrim(stream_get_contents($mem));
+
+                fclose($mem);
+                if (!starts_with($csv_line, '"')) {
+                    return '"' . $csv_line . '"';
+                }
+
+                return $csv_line;
+            },
+            $this->toCSVArray()
+        );
+
+        return join(',', $values);
     }
 }

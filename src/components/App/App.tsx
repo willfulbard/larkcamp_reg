@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
-import { AppState, Dollars } from './appTypes';
+import { AppState } from './appTypes';
 import PhoneInput from 'react-phone-number-input';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
@@ -47,10 +47,12 @@ class App extends React.Component {
     onSubmit = async ({formData}: any) => {
         this.setState({status: 'submitting'});
         try {
-            await fetch('/register.php', {
+            const res = await fetch('/register.php', {
                 method: 'POST',
                 body: JSON.stringify(formData),
             });
+            const text = await res.text();
+            console.log('response', res.status, text)
             this.setState({ status: 'submitted' });
         } catch {
             this.setState({ status: 'submissionError' });
@@ -71,15 +73,29 @@ class App extends React.Component {
             status: 'loaded',
             config,
             formData: undefined,
+            totals: {},
         });
+
+        // Because of the way that react-jsonschema-form works, this is the
+        // simplest way to "templatify" the pricing
+        Object.entries(config.pricing).forEach(
+            ([key, price]) => {
+                const els = document .getElementsByClassName("pricing_" + key);
+
+                for (let i = 0; i < els.length; i++) {
+                    els[i].innerHTML = '$' + price;
+                }
+            }
+        );
     }
 
     onChange = ({formData}: IChangeEvent) => {
         console.log(formData);
+        this.recalculateTotal();
         this.setState({ formData });
     }
 
-    getPrice = (): Dollars => {
+    recalculateTotal = () => {
         // calculation should be done in whole dollars for sake of
         // avoiding funky issues with floats. If sub-dollar amounts 
         // are necessary, we should switch this to cents.
@@ -87,9 +103,9 @@ class App extends React.Component {
             throw new Error('Got price while still fetching');
         }
 
-        const costs = calculatePrice(this.state);
+        const totals = calculatePrice(this.state);
 
-        return costs.total;
+        this.setState({ totals });
     }
 
     transformErrors = (errors: Array<any>) => errors.map(error => {
@@ -127,16 +143,32 @@ class App extends React.Component {
                                 <button type="submit" className="btn btn-info">Submit Registration</button>
                             </div>
                         </Form>
-                        <PriceTicker price={this.getPrice()} />
+                        <PriceTicker price={this.state.totals.total || 0} />
                     </section>
                 );  
                 break;
             case 'submitted':
                 pageContent = (
-                    <div className="reciept">
+                    <section className="reciept">
                         <h1>You're all set!</h1>
-                        <span>See you at Lark in the Morning 2020!</span>
-                    </div>
+                        <h2>See you at Lark in the Morning 2020!</h2>
+                        <p> If you're paying by PayPal or credit card, we'll be
+                        sending you a confirmation with payment instructions
+                        within the next week. If you're paying by check, please
+                        make it for <strong> ${this.state.totals.total} </strong> 
+                        payable to "Lark Camp", and mail it to: </p>
+
+                        <address> Lark Camp<br /> PO Box 1724<br /> Mendocino,
+                        CA 95460<br /> USA </address>
+
+                        <p>Do you need approval for your vehicle or trailer, have
+                        questions about carpooling, payments, meals, ordering
+                        t-shirts, or anything else?  Email us at
+                        <a href="mailto: registration@larkcamp.org"> registration@larkcamp.org </a>
+                        or call 707-397-5275.</p>
+
+                        <a href="https://www.larkcamp.org">Visit our website at www.larkcamp.org for more information!</a>
+                    </section>
                 )
                 break;
             default: 
