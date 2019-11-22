@@ -1,4 +1,5 @@
 [
+    ["$hash_id", "Unique ID"],
     ["$submission_time", "Time of Submission in the format YYYY-MM-DD HH:MM:SS"],
     ["payer_first_name", "Name (First) - Payer"],
     ["payer_last_name", "Name (Last) - Payer"],
@@ -13,6 +14,8 @@
     ["comments", "Comments - overall"],
     ["$camper_count", "How Many People Are You Registering For"],
     ["payment_type", "Payment Type"],
+    ["$zero", "Friends Of The Woodlands"],
+    ["$blank", "Quantity Parking Passes Discount Price in the format 'qty $total'"],
     ["$parking_passes_qty", "Quantity Parking Passes Full Price in the format 'qty $total'"],
     ["$parking_passes_names", "Who Gets The Parking Pass(es)?"],
     ["lta_donation", "MAKE A NON-TAX DEDUCTIBLE DONATION"],
@@ -51,7 +54,9 @@
     ["$accomodations_tentarea_K:campers[0]->accomodations", "TENTING AREA PREFERENCE (K) - Reg0"],
     ["$accomodations_tentarea_L:campers[0]->accomodations", "TENTING AREA PREFERENCE (L) - Reg0"],
     ["campers[0]->session", "Length Of Stay: - Reg0"],
+    ["$blank", "Registrant Tuition Discount Price - Reg0"],
     ["$tuition_full:0", "Registrant One Tuition Full Price - Reg0"],
+    ["$blank", "Registrant Meals Discount Price - Reg0"],
     ["$tuition_meals:0", "Registrant One Meals Full Price - Reg0"],
     ["campers[0]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg0"],
 
@@ -88,7 +93,9 @@
     ["$accomodations_tentarea_K:campers[1]->accomodations", "TENTING AREA PREFERENCE (K) - Reg1"],
     ["$accomodations_tentarea_L:campers[1]->accomodations", "TENTING AREA PREFERENCE (L) - Reg1"],
     ["campers[1]->session", "Length Of Stay: - Reg1"],
+    ["$blank", "Registrant Tuition Discount Price - Reg1"],
     ["$tuition_full:1", "Registrant One Tuition Full Price - Reg1"],
+    ["$blank", "Registrant Meals Discount Price - Reg1"],
     ["$tuition_meals:1", "Registrant One Meals Full Price - Reg1"],
     ["campers[1]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg1"],
 
@@ -125,7 +132,9 @@
     ["$accomodations_tentarea_K:campers[2]->accomodations", "TENTING AREA PREFERENCE (K) - Reg2"],
     ["$accomodations_tentarea_L:campers[2]->accomodations", "TENTING AREA PREFERENCE (L) - Reg2"],
     ["campers[2]->session", "Length Of Stay: - Reg2"],
+    ["$blank", "Registrant Registration Discount Price - Reg2"],
     ["$tuition_full:2", "Registrant One Tuition Full Price - Reg2"],
+    ["$blank", "Registrant Meals Discount Price - Reg2"],
     ["$tuition_meals:2", "Registrant One Meals Full Price - Reg2"],
     ["campers[2]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg2"],
 
@@ -162,7 +171,9 @@
     ["$accomodations_tentarea_K:campers[3]->accomodations", "TENTING AREA PREFERENCE (K) - Reg3"],
     ["$accomodations_tentarea_L:campers[3]->accomodations", "TENTING AREA PREFERENCE (L) - Reg3"],
     ["campers[3]->session", "Length Of Stay: - Reg3"],
+    ["$blank", "Registrant Registration Discount Price - Reg3"],
     ["$tuition_full:3", "Registrant One Tuition Full Price - Reg3"],
+    ["$blank", "Registrant Meals Discount Price - Reg3"],
     ["$tuition_meals:3", "Registrant One Meals Full Price - Reg3"],
     ["campers[3]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg3"],
 
@@ -199,7 +210,9 @@
     ["$accomodations_tentarea_K:campers[4]->accomodations", "TENTING AREA PREFERENCE (K) - Reg4"],
     ["$accomodations_tentarea_L:campers[4]->accomodations", "TENTING AREA PREFERENCE (L) - Reg4"],
     ["campers[4]->session", "Length Of Stay: - Reg4"],
+    ["$blank", "Registrant Registration Discount Price - Reg4"],
     ["$tuition_full:4", "Registrant One Tuition Full Price - Reg4"],
+    ["$blank", "Registrant Meals Discount Price - Reg4"],
     ["$tuition_meals:4", "Registrant One Meals Full Price - Reg4"],
     ["campers[4]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg4"],
 
@@ -236,7 +249,9 @@
     ["$accomodations_tentarea_K:campers[5]->accomodations", "TENTING AREA PREFERENCE (K) - Reg5"],
     ["$accomodations_tentarea_L:campers[5]->accomodations", "TENTING AREA PREFERENCE (L) - Reg5"],
     ["campers[5]->session", "Length Of Stay: - Reg5"],
+    ["$blank", "Registrant Registration Discount Price - Reg5"],
     ["$tuition_full:5", "Registrant One Tuition Full Price - Reg5"],
+    ["$blank", "Registrant Meals Discount Price - Reg5"],
     ["$tuition_meals:5", "Registrant One Meals Full Price - Reg5"],
     ["campers[5]->meals->meal_type", "If you are purchasing meals at this time please select your food preference. - Reg5"],
 

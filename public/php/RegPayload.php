@@ -43,7 +43,7 @@ class RegPayload extends Payload
                 return "NOMETHOD $method(" . join(', ', $args) . ")";
             }
 
-            return $formatter->get($field[0]);
+            return strval($formatter->get($field[0]));
         }, $this->csv_config);
     }
 

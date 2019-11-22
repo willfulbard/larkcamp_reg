@@ -98,6 +98,11 @@ class ValueFormatter
         return $this->config->pricingLogic;
     }
 
+    public function blank()
+    {
+        return '';
+    }
+
     public function zero()
     {
         return 0;
