@@ -25,22 +25,63 @@ form {
     margin-right: auto;
 }
 
+.PriceTicker {
+    font-size: 16pt;
+    font-weight: bold;
+}
+
 fieldset#root div.field-object {
     border: 1px solid #e5e5e5;
     padding: 1em;
     background-color: #eee;
 }
 
-fieldset#root_campers button::after {
-    content: " Camper";
+button .glyphicon-plus {
+    display: none;
+}
+
+fieldset#root_campers .array-item-toolbox {
+    width: 15%;
+    float: right;
+}
+
+fieldset#root_campers .array-item-toolbox .btn {
+    white-space: inherit;
+}
+
+fieldset#root_campers > .array-item-list .array-item .col-xs-9 {
+    width: 85%;
+}
+
+.array-item-add, button[type=submit] {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    height: 3em;
+}
+
+fieldset#root_campers > .row:last-child .array-item-add button,
+fieldset#root_parking_passes .array-item-add:last-child button,
+button[type=submit] {
+    width: 100%;
+    height: 100%;
+    font-size: 1.5em;
+}
+
+fieldset#root_campers button.array-item-remove::after {
+    content: " Remove This Camper";
+}
+
+fieldset#root_campers > .row:last-child .array-item-add button::after {
+    content: "Add An Additional Camper";
 }
 
 fieldset#root_campers .accomodations button::after {
-    content: " Name";
+    content: "Add A Camper Sharing With You";
 }
 
 fieldset#root_parking_passes .array-item-add button::after {
-    content: " Parking Pass";
+    content: "Add A Parking Pass";
 }
 
 .react-phone-number-input__icon img {

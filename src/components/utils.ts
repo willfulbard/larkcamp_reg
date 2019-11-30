@@ -82,5 +82,6 @@ export function calculatePrice(state: AppState) {
 			}
 		}
 	)
+
 	return result;
 }

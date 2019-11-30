@@ -4,19 +4,24 @@ import { JSONSchema6 } from "json-schema";
 /* Utility States */
 export type Dollars = number;
 
+export type AppConfig = {
+    uiSchema: UiSchema,
+    dataSchema: JSONSchema6,
+    pricingLogic: any,
+    pricing: any,
+};
+
 /* App States */
 interface FormDataState {
-  config: {
-      uiSchema: UiSchema,
-      dataSchema: JSONSchema6,
-      pricingLogic: any,
-      pricing: any,
-  }
+  config: AppConfig
   /* An opaque type is probably correct here. */
   formData: {
       campers: Array<Object>,
-  },
-  totals: any,
+  }
+
+  totals: {
+      [key: string]: number,
+  }
 }
 
 interface FetchingState {

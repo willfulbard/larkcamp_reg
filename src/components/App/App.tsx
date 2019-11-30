@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import Form, { IChangeEvent } from 'react-jsonschema-form';
 import Spinner from '../Spinner';
-import { AppState } from './appTypes';
+import { AppState, AppConfig } from './appTypes';
 import PhoneInput from 'react-phone-number-input';
 import DescriptionField from '../DescriptionField';
 import ObjectFieldTemplate from '../ObjectFieldTemplate';
@@ -60,7 +60,8 @@ class App extends React.Component {
     }
 
     getConfig = async () => {
-        let config;
+        let config: AppConfig;
+
         try {
             const res = await fetch('/config.json');
             config = await res.json();
@@ -78,12 +79,14 @@ class App extends React.Component {
 
         // Because of the way that react-jsonschema-form works, this is the
         // simplest way to "templatify" the pricing
-        Object.entries(config.pricing).forEach(
-            ([key, price]) => {
-                const els = document .getElementsByClassName("pricing_" + key);
+        Object.keys(config.pricing).forEach(
+            (key) => {
+                const price = config.pricing[key];
+
+                const els = document.getElementsByClassName("pricing_" + key);
 
                 for (let i = 0; i < els.length; i++) {
-                    els[i].innerHTML = '$' + price;
+                    els[i].innerHTML = '$' + Math.abs(price);
                 }
             }
         );
@@ -140,6 +143,7 @@ class App extends React.Component {
                             // liveValidate={true}
                         >
                             <div>
+                                <p>By submitting this form, you agree to the <a href="http://www.larkcamp.org/campterms.html" target="_blank">Terms of Registration</a>.</p>
                                 <button type="submit" className="btn btn-info">Submit Registration</button>
                             </div>
                         </Form>
@@ -151,7 +155,7 @@ class App extends React.Component {
                 pageContent = (
                     <section className="reciept">
                         <h1>You're all set!</h1>
-                        <h2>See you at Lark in the Morning 2020!</h2>
+                        <h2>See you at Lark Camp 2020!</h2>
                         <p> If you're paying by PayPal or credit card, we'll be
                         sending you a confirmation with payment instructions
                         within the next week. If you're paying by check, please

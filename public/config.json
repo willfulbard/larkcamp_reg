@@ -1,6 +1,6 @@
 {
     "uiSchema": {
-        "ui:description": { "__html": "<p>Please read <a href='http://www.larkcamp.org/campterms.html' target='_blank'>Terms of Registration</a> before filling out this form.</p><p>Fill out this form to complete your registration for Lark Camp 2020 online. Please note that registrations are accepted in the order they are received; your camping preferences are processed on a “first come - first served” basis. Your early payment will not be cashed or charged until January 2020.</p><p><strong>Registering by Mail</strong></p><p>If you do not wish to register online, you can download a four-page PDF Registration Form to hand-fill at:<br><a href='http://www.larkcamp.org/regform.pdf' target='_blank'>2020 Mail In Registration Form</a><br>Mail your form with your credit card information, PayPal email address for invoicing, or a check, cashier's check, or money order payable to “Lark Camp” to:<br>Lark Camp Registration, PO Box 1724, Mendocino, CA 95460</p><p>Fields marked with an asterisk (*) are required.</p><p><strong>There are no refunds</strong>; please consider purchasing trip insurance if you know something could prevent your attendance.</p>" },
+        "ui:description": { "__html": "<p>Please read <a href='http://www.larkcamp.org/campterms.html' target='_blank'>Terms of Registration</a> before filling out this form.</p><p>Fill out this form to complete your registration for Lark Camp 2020 online. Please note that registrations are accepted in the order they are received; your camping preferences are processed on a “first come - first served” basis. Your early payment will not be cashed or charged until January 2020.</p><p>Fields marked with an asterisk (*) are required.</p><p><strong>There are no refunds</strong>; please consider purchasing trip insurance if you know something could prevent your attendance.</p>" },
         "payer_billing_address": {
             "ui:title": "Billing Address",
             "contentClassNames": "row",
@@ -14,7 +14,7 @@
             "ui:widget": "PhoneInput"
         },
         "payment_type": {
-            "ui:description": { "__html": "<p>You get a discount per camper (<span class=\"pricing_check_discount_full\"></span> for full camp, <span class=\"pricing_check_discount_half\"></span> for half camp) if paying by check</p>" }
+            "ui:description": { "__html": "<p>A per camper discount will be automatically applied if paying by check - <span class=\"pricing_check_discount_full\"></span> for full camp, <span class=\"pricing_check_discount_half\"></span> for half camp</p>" }
         },
         "payment_full_or_deposit": {
             "ui:description": { "__html": "<p>Full Payment - Pay your full registration now</p><p>Deposit 50% Tuition - Reserve your space with a deposit, due June 20th.</p>" }
@@ -24,13 +24,23 @@
         },
         "campers": {
             "ui:title": "Camper Information",
-            "ui:help": "(click the blue + symbol to add additional campers)",
+            "ui:description": "There is a big blue button below to add additional campers.  You may add up to 6 additional campers",
             "ui:options": {
                 "orderable": false
             },
             "items": {
                 "session": {
                     "ui:description": { "__html": "<p><u>Full camp</u> begins Friday, July 31, 2020 at 3:00 pm, and ends Saturday, August 8 at 9:00am.<br><u>First half camp</u> begins Friday, July 31, 2020 at 3:00 pm and ends before noon on Tuesday, August 4.<br><u>Second half camp</u> begins at noon on Tuesday, August 4, 2020 and ends August 8 at 9:00 am.</p><p>A discount of <span class=\"pricing_check_discount_full\"></span> (<span class=\"pricing_check_discount_half\"></span> for half camp) is given if you are paying by check.</p><ul><li>Full camp (adult): <span class=\"pricing_full_adult\"></span></li><li>Full camp (11 and under): <span class=\"pricing_full_teen\"></span></li><li>Half camp (adult): <span class=\"pricing_half_adult\"></span></li><li>Half camp (11 and under): <span class=\"pricing_half_teen\"></span></li></ul>" }
+                },
+
+                "camper_address": {
+                    "ui:title": "Address",
+                    "contentClassNames": "row",
+                    "street_address":       { "classNames": "col-xs-12 col-sm-12" },
+                    "city":                 { "classNames": "col-xs-12 col-sm-12"  },
+                    "state_or_province":    { "classNames": "col-xs-6  col-sm-6"  },
+                    "zip_code":             { "classNames": "col-xs-6  col-sm-6"  },
+                    "country":              { "classNames": "col-xs-12 col-sm-6"  }
                 },
                 "accomodations": {
                     "classNames": "accomodations",
@@ -59,7 +69,7 @@
             "large":  { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xl":     { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
             "xxl":    { "classNames": "col-xs-4 col-sm-2", "ui:widget": "NaturalNumberInput" },
-            "ui:description": { "__html": "<p>All sizes <span class=\"pricing_tshirt\"></span>. Price includes sales tax.<br><a href='https://www.larkcamp.org/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p><p>T-shirts are standard boxy cut; if you want a fitted t-shirt, let us know in the comments box below.</p>" }
+            "ui:description": { "__html": "<p>All sizes <span class=\"pricing_tshirt\"></span>. Price includes sales tax.<br><a href='https://www.larkcamp.org/shirt.html' target='_blank'>More Information About Lark Camp Shirts</a></p><p>T-shirts are straight cut by default; if you want a fitted cut t-shirt, let us know in the comments box below. </p><p>We use the language “Straight Cut”, and “Fitted Cut” for the two different scales called Unisex/Men’s and Women’s by the garment industry.</p><p>Fitted cut garments are typically 1 size smaller than the equivalent straight cut. For example if you typically wear a large fitted garment you would typically wear a small in straight cut sizing.</p>" }
         },
         "sweatshirt_sizes": {
             "contentClassNames": "row",
@@ -167,7 +177,7 @@
                                     },
                                     "cabinmates": {
                                         "type": "array",
-                                        "title": "Who would you like to be in a cabin with?",
+                                        "title": "Who would you like to share a cabin with?",
                                         "items": {
                                             "type": "string",
                                             "maxLength": 50,
@@ -183,7 +193,7 @@
                                     },
                                     "tent_or_vehicle_mates": {
                                         "type": "array",
-                                        "title": "If sharing, who will be in your tent with you?",
+                                        "title": "Are you sharing your tent with anyone? If so, add their names below.",
                                         "items": {
                                             "type": "string",
                                             "maxLength": 50,
@@ -210,7 +220,8 @@
                                                 "$ref": "#/definitions/camping_preference",
                                                 "title": "Fourth choice spot"
                                             }
-                                        }
+                                        },
+                                        "required": ["first_choice", "second_choice", "third_choice", "fourth_choice"]
                                     }
                                 }
                             },
@@ -220,7 +231,7 @@
                                         "enum": ["Vehicle Camping"]
                                     },
                                     "tent_or_vehicle_mates": {
-                                        "title": "If sharing, who will be in your vehicle with you?",
+                                        "title": "Are you sharing your vehicle camping with anyone? If so, add their names below.",
                                         "type": "array",
                                         "items": {
                                             "type": "string",

@@ -27,19 +27,14 @@ class RegistrationPayloadClassTest extends TestCase
 
         $this->assertIsString($csv);
 
-        // test accomdations formating
-        $this->assertContains($arr[32], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[29] . " isn't correct");
-        $this->assertContains($arr[33], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[30] . " isn't correct");
-        $this->assertContains($arr[34], ['1st Choice', '2nd Choice', '3rd Choice', 'N/A'], $arr[31] . " isn't correct");
+        // test gender
+        $this->assertContains($arr[29], ['M', 'F', 'O'], $arr[30] . " isn't correct for camper 0 gender");
 
-        $accomodations_map = [
-            'Camp 1' => 32,
-            'Camp 2' => 33,
-            'Camp 3' => 34,
-        ];
+        // test accomdations formating
+        //
         $value = $json->campers[0]->accomodations->camp_preference;
-        $key = $accomodations_map[$value];
-        $this->assertEquals($arr[$key], '1st Choice');
+
+        $this->assertStringContainsString("$value = 1st Choice", $arr[31]);
 
         foreach($arr as $value) {
             $value = print_r($value, true); 
@@ -67,16 +62,23 @@ class RegistrationPayloadClassTest extends TestCase
 
         // Test values
         $truths = [
-            [14, '/^(Full Price|Discount Price) - /'],
-            [17, '/^[0-9]+ \$[0-9]+$/'],
-            [31, '/^(N\/A|[0-9]+)$/'],
-            [55, "/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
-            [57, "/^($meal_options)$/"], // we can only be sure there is one camper
+            [14, "1\t/^(Full Price|Discount Price) - /"],
+            [15, "0\t/^[0-9]+ \\$[0-9]+$/"], // parking passes
+            [16, "0\t/^[0-9]+ \\$[0-9]+$/"], // parking passes
+            // [31, "1\t/^(N\/A|[0-9]+)$/"], // 
+            [37, "0\t/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
+            [38, "0\t/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
+            [39, "0\t/^($meal_options)$/"], // we can only be sure there is one camper
+            [40, "0\t/^($meal_options)$/"], // we can only be sure there is one camper
         ];
 
-        foreach($truths as list($index, $regex)) {
+        foreach($truths as list($index, $test)) {
             $value = $arr[$index];
             $desc = $rp->csv_config[$index][1]; // description out of json-to-csv.json
+
+            list($required, $regex) = explode("\t", $test);
+
+            if (!$required && !$value) continue;
 
             $msg = "value `$value` doesn't match $regex ([$index] $desc)";
             $this->assertRegExp("$regex", $value, $msg);
@@ -105,16 +107,15 @@ class RegistrationPayloadClassTest extends TestCase
         // var_dump($arr);
 
         $this->assertIsString($csv);
-        $this->assertEquals($arr[260], 1, 'CSV index 245 (box should be ticked...) should be 1');
-        $this->assertTrue($arr[259] > 0, 'Total should be greater than 0');
+        $this->assertTrue($arr[173] > 0, 'Total should be greater than 0');
 
         // Check a couple values
         $map = [
             'payer_first_name' => 2,
             'payer_last_name' => 3,
             'payment_type' => 14,
-            'campers[0]->first_name' => 21,
-            'campers[0]->gender' => 30,
+            'campers[0]->first_name' => 20,
+            'campers[0]->gender' => 29,
         ];
 
         foreach($map as $p => $index) {

@@ -9,6 +9,7 @@ class ValueFormatter
     protected $path;
     protected $config;
     protected $cost;
+    public $payment_type;
 
     public function __construct($payload)
     {
@@ -16,6 +17,8 @@ class ValueFormatter
         $this->config = $this->payload->config;
 
         $this->path = new ObjectPath($payload->json);
+
+        $this->payment_type = substr($this->get("payment_type"), 0, 1);
     }
 
     public function getCost() {
@@ -93,6 +96,11 @@ class ValueFormatter
         return $obj->getPropertyValue();
     }
 
+    public function camper_exists($p)
+    {
+        return $this->get("campers[$p]") ? true : false;
+    }
+
     public function get_pricing_logic()
     {
         return $this->config->pricingLogic;
@@ -113,6 +121,11 @@ class ValueFormatter
         return 1;
     }
 
+    public function wtf_is($p)
+    {
+        return "What in the world is $p";
+    }
+
     public function submission_time()
     {
         $date = new \DateTime('America/Los_Angeles');
@@ -126,6 +139,8 @@ class ValueFormatter
 
     public function age($p)
     {
+        if (!$this->camper_exists($p)) return '';
+
         $value = $this->get("campers[$p]->age");
 
         if (!$value) return 'N/A';
@@ -133,11 +148,13 @@ class ValueFormatter
         return $value;
     }
 
-    public function parking_passes_qty()
+    public function parking_passes_qty($type)
     {
         $passes = $this->get('parking_passes');
 
         if (!$passes) return '';
+
+        if ($this->payment_type === $type) return '';
 
         $count = count($passes);
         $total = $this->getCost()->parking;
@@ -145,80 +162,103 @@ class ValueFormatter
         return "$count $$total";
     }
 
-    public function accomodations_camp($camp, $p)
+    public function accomodations_camp($p)
     {
-        $value = $this->get($p);
+        // "Camp 1 = N/A
+        //  Camp 2 = N/A
+        //  Camp 3 = N/A"
+        // ignore if no camper
+        if (!$this->camper_exists($p)) return '';
 
-        if (!$value) return '';
+        $value = $this->get("campers[$p]->accomodations->camp_preference");
 
-        if ("Camp $camp" === $value->camp_preference) {
-            return "1st Choice";
-        }
+        if (!$value) return join("\n", [
+            "Camp 1 = N/A",
+            "Camp 2 = N/A",
+            "Camp 3 = N/A",
+        ]);
 
-        return "N/A";
+        return join("\n", array_map(function($camp) use ($value) {
+            if ("Camp $camp" === $value) {
+                return "Camp $camp = 1st Choice";
+            }
+            return "Camp $camp = 4th Choice";
+
+        }, [1, 2, 3, 4]));
     }
 
-    public function accomodations_camp_1($p) { return $this->accomodations_camp("1", $p); }
-    public function accomodations_camp_2($p) { return $this->accomodations_camp("2", $p); }
-    public function accomodations_camp_3($p) { return $this->accomodations_camp("3", $p); }
-
-    public function accomodations_lodgepref($pref, $p)
+    public function accomodations_lodgepref($p)
     {
-        $value = $this->get($p);
+        // "Cabin = 4th Choice
+        // Tent = 4th Choice
+        // Vehicle = 4th Choice
+        // Off Site = 1st Choice"
 
-        if (!$value) return '';
+        if (!$this->camper_exists($p)) return '';
 
-        if ($pref === $value->accomodation_preference) {
-            return "1st Choice";
-        }
+        $value = $this->get("campers[$p]->accomodations->accomodation_preference");
 
-        return "N/A";
+        if (!$this->camper_exists($p)) return '';
+
+        if (!$value) return join("\n", [
+            "Cabin = N/A",
+            "Tent = N/A",
+            "Vehicle = N/A",
+            "Off Site = N/A",
+        ]);
+
+        return join("\n", array_map(function($pref) use ($value) {
+            if ($pref === $value) {
+                return "$pref = 1st Choice";
+            }
+            return "$pref = 4th Choice";
+        }, [
+            "Cabin",
+            "Tent",
+            "Vehicle",
+            "Off Site",
+        ]));
+
     }
 
-    public function accomodations_lodgepref_cabin($p)   { return $this->accomodations_lodgepref("Cabin", $p); }
-    public function accomodations_lodgepref_tent($p)    { return $this->accomodations_lodgepref("Tent", $p); }
-    public function accomodations_lodgepref_vehicle($p) { return $this->accomodations_lodgepref("Vehicle", $p); }
-    public function accomodations_lodgepref_offsite($p) { return $this->accomodations_lodgepref("Offsite", $p); }
-
-    public function accomodations_tentarea($pref, $p)
+    public function accomodations_tentarea($p)
     {
-        $value = $this->get($p);
+        if (!$this->camper_exists($p)) return '';
 
-        if (!method_exists($value, 'tenting_area_preference')) {
+        $tenting_area_preference = $this->get("campers[$p]->accomodations->tenting_area_preference");
+
+        if (!$tenting_area_preference) {
             return '';
         }
 
-        if ($pref === $value->tenting_area_preference->first_choice) {
-            return "1st Choice";
+        $return_value = '';
+
+        if (array_key_exists('first_choice', $tenting_area_preference)) {
+            $return_value .= "{$tenting_area_preference->first_choice} = 1st Choice\n";
+        } else {
+            $return_value .= "? = 1st Choice\n";
         }
 
-        if ($pref === $value->tenting_area_preference->second_choice) {
-            return "2nd Choice";
+        if (array_key_exists('second_choice', $tenting_area_preference)) {
+            $return_value .= "{$tenting_area_preference->second_choice} = 2nd Choice\n";
+        } else {
+            $return_value .= "? = 2nd Choice\n";
         }
 
-        if ($pref === $value->tenting_area_preference->third_choice) {
-            return "3rd Choice";
+        if (array_key_exists('third_choice', $tenting_area_preference)) {
+            $return_value .= "{$tenting_area_preference->third_choice} = 3rd Choice\n";
+        } else {
+            $return_value .= "? = 3rd Choice\n";
         }
 
-        if ($pref === $value->tenting_area_preference->fourth_choice) {
-            return "4th Choice";
+        if (array_key_exists('fourth_choice', $tenting_area_preference)) {
+            $return_value .= "{$tenting_area_preference->fourth_choice} = 4th Choice\n";
+        } else {
+            $return_value .= "? = 4th Choice\n";
         }
 
-        return '';
+        return $return_value;
     }
-
-    public function accomodations_tentarea_A($p) { return $this->accomodations_tentarea("A", $p); }
-    public function accomodations_tentarea_B($p) { return $this->accomodations_tentarea("B", $p); }
-    public function accomodations_tentarea_C($p) { return $this->accomodations_tentarea("C", $p); }
-    public function accomodations_tentarea_D($p) { return $this->accomodations_tentarea("D", $p); }
-    public function accomodations_tentarea_E($p) { return $this->accomodations_tentarea("E", $p); }
-    public function accomodations_tentarea_F($p) { return $this->accomodations_tentarea("F", $p); }
-    public function accomodations_tentarea_G($p) { return $this->accomodations_tentarea("G", $p); }
-    public function accomodations_tentarea_H($p) { return $this->accomodations_tentarea("H", $p); }
-    public function accomodations_tentarea_I($p) { return $this->accomodations_tentarea("I", $p); }
-    public function accomodations_tentarea_J($p) { return $this->accomodations_tentarea("J", $p); }
-    public function accomodations_tentarea_K($p) { return $this->accomodations_tentarea("K", $p); }
-    public function accomodations_tentarea_L($p) { return $this->accomodations_tentarea("L", $p); }
 
     public function join_field($p, $method)
     {
@@ -257,6 +297,22 @@ class ValueFormatter
     {
         if (!array_key_exists($p, $this->getCost()->campers)) return '';
 
+        if ($this->payment_type === 'D') return '';
+
+        return $this->tuition($p);
+    }
+
+    public function tuition_discount($p)
+    {
+        if (!array_key_exists($p, $this->getCost()->campers)) return '';
+
+        if ($this->payment_type === 'F') return '';
+
+        return $this->tuition($p);
+    }
+
+    public function tuition($p)
+    {
         $cost = $this->getCost()->campers[$p];
 
         $len_map = [
@@ -273,6 +329,20 @@ class ValueFormatter
         $deposit = $dep_map[$this->get("payment_full_or_deposit")];
 
         return "$length $deposit $$cost";
+    }
+
+    public function tuition_meals_discount($p)
+    {
+        if ($this->payment_type === 'F') return '';
+
+        return $this->tuition_meals($p);
+    }
+
+    public function tuition_meals_full($p)
+    {
+        if ($this->payment_type === 'D') return '';
+
+        return $this->tuition_meals($p);
     }
 
     public function tuition_meals($p)
@@ -293,46 +363,41 @@ class ValueFormatter
 
     }
 
-    public function shirt($type, $size)
+    public function shirt($pricing, $type, $size)
     {
+
+        if ($this->payment_type !== $pricing) return '';
+
         $count = $this->get($type . '_sizes->' . $size);
-        $pricing_logic = $this->get_pricing_logic()->shirts;
-        // starts at 4?
-        $map = [
-            'tshirt' => [
-                'small'  => 0,
-                'medium' => 1,
-                'large'  => 2,
-                'xl'     => 3,
-                'xxl'    => 4,
-            ],
-            'sweatshirt' => [
-                'small'  => 5,
-                'medium' => 6,
-                'large'  => 7,
-                'xl'     => 8,
-                'xxl'    => 9,
-            ],
-        ];
 
-        $cost = \JWadhams\JsonLogic::apply(
-            $pricing_logic->{'+'}[$map[$type][$size]],
-            $this->payload
-        );
+        if (!$count) return '';
 
-        return $cost;
+        $cost = $this->config->pricing->$type * $count;
+
+        return "$count \$$cost";
     }
 
-    public function shirt_ts_s()  { return $this->shirt('tshirt', 'small'); }
-    public function shirt_ts_m()  { return $this->shirt('tshirt', 'medium'); }
-    public function shirt_ts_l()  { return $this->shirt('tshirt', 'large'); }
-    public function shirt_ts_x()  { return $this->shirt('tshirt', 'xl'); }
-    public function shirt_ts_2x() { return $this->shirt('tshirt', 'xxl'); }
-    public function shirt_sw_s()  { return $this->shirt('sweatshirt', 'small'); }
-    public function shirt_sw_m()  { return $this->shirt('sweatshirt', 'medium'); }
-    public function shirt_sw_l()  { return $this->shirt('sweatshirt', 'large'); }
-    public function shirt_sw_x()  { return $this->shirt('sweatshirt', 'xl'); }
-    public function shirt_sw_2x() { return $this->shirt('sweatshirt', 'xxl'); }
+    public function shirt_ts_full_s()  { return $this->shirt('F', 'tshirt', 'small'); }
+    public function shirt_ts_full_m()  { return $this->shirt('F', 'tshirt', 'medium'); }
+    public function shirt_ts_full_l()  { return $this->shirt('F', 'tshirt', 'large'); }
+    public function shirt_ts_full_x()  { return $this->shirt('F', 'tshirt', 'xl'); }
+    public function shirt_ts_full_2x() { return $this->shirt('F', 'tshirt', 'xxl'); }
+    public function shirt_sw_full_s()  { return $this->shirt('F', 'sweatshirt', 'small'); }
+    public function shirt_sw_full_m()  { return $this->shirt('F', 'sweatshirt', 'medium'); }
+    public function shirt_sw_full_l()  { return $this->shirt('F', 'sweatshirt', 'large'); }
+    public function shirt_sw_full_x()  { return $this->shirt('F', 'sweatshirt', 'xl'); }
+    public function shirt_sw_full_2x() { return $this->shirt('F', 'sweatshirt', 'xxl'); }
+
+    public function shirt_ts_discount_s()  { return $this->shirt('D', 'tshirt', 'small'); }
+    public function shirt_ts_discount_m()  { return $this->shirt('D', 'tshirt', 'medium'); }
+    public function shirt_ts_discount_l()  { return $this->shirt('D', 'tshirt', 'large'); }
+    public function shirt_ts_discount_x()  { return $this->shirt('D', 'tshirt', 'xl'); }
+    public function shirt_ts_discount_2x() { return $this->shirt('D', 'tshirt', 'xxl'); }
+    public function shirt_sw_discount_s()  { return $this->shirt('D', 'sweatshirt', 'small'); }
+    public function shirt_sw_discount_m()  { return $this->shirt('D', 'sweatshirt', 'medium'); }
+    public function shirt_sw_discount_l()  { return $this->shirt('D', 'sweatshirt', 'large'); }
+    public function shirt_sw_discount_x()  { return $this->shirt('D', 'sweatshirt', 'xl'); }
+    public function shirt_sw_discount_2x() { return $this->shirt('D', 'sweatshirt', 'xxl'); }
 
     public function vehicle_length()
     {
@@ -391,13 +456,17 @@ class ValueFormatter
     {
         $ip = $this->ip();
 
-        if (!$ip) return 'unknown';
+        if (!$ip) return 'unknown location';
 
-        $json     = file_get_contents("http://ipinfo.io/$ip/geo");
-        $json     = json_decode($json, true);
-        $country  = '';
+        $json = @file_get_contents("http://ipinfo.io/$ip/geo");
+
+        if (!$json) return 'unknown location';
+
+        $json = json_decode($json, true);
+
+        $country = '';
         $region  = '';
-        $city  = '';
+        $city    = '';
         if (array_key_exists('country', $json)) $country = $json['country'];
         if (array_key_exists('region', $json)) $region = $json['region'];
         if (array_key_exists('city', $json)) $city = $json['city'];
