@@ -94,21 +94,7 @@ class App extends React.Component {
 
     onChange = ({formData}: IChangeEvent) => {
         console.log(formData);
-        this.recalculateTotal();
         this.setState({ formData });
-    }
-
-    recalculateTotal = () => {
-        // calculation should be done in whole dollars for sake of
-        // avoiding funky issues with floats. If sub-dollar amounts 
-        // are necessary, we should switch this to cents.
-        if(this.state.status === 'fetching'){
-            throw new Error('Got price while still fetching');
-        }
-
-        const totals = calculatePrice(this.state);
-
-        this.setState({ totals });
     }
 
     transformErrors = (errors: Array<any>) => errors.map(error => {
@@ -147,7 +133,7 @@ class App extends React.Component {
                                 <button type="submit" className="btn btn-info">Submit Registration</button>
                             </div>
                         </Form>
-                        <PriceTicker price={this.state.totals.total || 0} />
+                        <PriceTicker price={calculatePrice(this.state).total || 0} />
                     </section>
                 );  
                 break;

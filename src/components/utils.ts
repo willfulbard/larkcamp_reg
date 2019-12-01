@@ -2,6 +2,9 @@ import jsonLogic from 'json-logic-js';
 import { AppState } from './App/appTypes';
 
 export function calculatePrice(state: AppState) {
+	// calculation should be done in whole dollars for sake of
+	// avoiding funky issues with floats. If sub-dollar amounts
+	// are necessary, we should switch this to cents.
 	if (state.status === 'fetching' || !state.formData) return { total: 0 };
 
 	const pricingLogic = state.config.pricingLogic;
