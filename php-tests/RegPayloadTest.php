@@ -70,6 +70,7 @@ class RegistrationPayloadClassTest extends TestCase
             [38, "0\t/^($lengths) ($deposits) \\$[0-9]+/"], // we can only be sure there is one camper
             [39, "0\t/^($meal_options)$/"], // we can only be sure there is one camper
             [40, "0\t/^($meal_options)$/"], // we can only be sure there is one camper
+            [173, "1\t/^1$/"], // we can only be sure there is one camper
         ];
 
         foreach($truths as list($index, $test)) {
@@ -91,8 +92,14 @@ class RegistrationPayloadClassTest extends TestCase
         $json_parser = new \JSON\JSON();
         $json = $json_parser->parse($json_body_string);
 
+        $camper = $json->campers[0];
+
+        $camper->accomodations->accomodation_preference = 'Vehicle Camping';
+        $camper->accomodations->vehicle_length = 12;
+        $camper->accomodations->vehicle_make = 'Honda';
+
         // Just first camper
-        $json->campers = [ $json->campers[0] ];
+        $json->campers = [ $camper ];
 
         // should handle no parking passes
         $json->parking_passes = null;
@@ -108,6 +115,8 @@ class RegistrationPayloadClassTest extends TestCase
 
         $this->assertIsString($csv);
         $this->assertTrue($arr[173] > 0, 'Total should be greater than 0');
+
+        $this->assertEquals($arr[174], '12\' Honda', 'Should have created the correct vehicle description');
 
         // Check a couple values
         $map = [

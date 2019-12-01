@@ -68,7 +68,7 @@ button[type=submit] {
     font-size: 1.5em;
 }
 
-fieldset#root_campers button.array-item-remove::after {
+fieldset#root_campers .array-item-toolbox button.array-item-remove::after {
     content: " Remove This Camper";
 }
 
@@ -76,8 +76,19 @@ fieldset#root_campers > .row:last-child .array-item-add button::after {
     content: "Add An Additional Camper";
 }
 
-fieldset#root_campers .accomodations button::after {
+fieldset#root_campers .accomodations button.btn-add::after {
     content: "Add A Camper Sharing With You";
+}
+
+fieldset#root_campers .accomodations button.array-item-remove::after {
+    content: "";
+}
+
+fieldset#root_campers .accomodations .btn-group {
+    bottom: -34px;
+}
+
+fieldset#root_campers .accomodations .array-item-toolbox {
 }
 
 fieldset#root_parking_passes .array-item-add button::after {

@@ -401,19 +401,22 @@ class ValueFormatter
 
     public function vehicle_length()
     {
-        $total = join(', ', array_filter(array_map(function ($camper) {
+
+        $strs = array_map(function ($camper) {
             $acc = $camper->accomodations;
 
             if ($acc->accomodation_preference !== 'Vehicle Camping') return false;
 
             $length = "unknown length";
-            if (method_exists($acc, 'vehicle_length')) $length = $acc->vehicle_length . "'";
+            if (array_key_exists('vehicle_length', $acc)) $length = $acc->vehicle_length . "'";
 
             $make = "unknown make";
-            if (method_exists($acc, 'vehicle_make')) $make = $acc->vehicle_make;
+            if (array_key_exists('vehicle_make', $acc)) $make = $acc->vehicle_make;
 
             return "$length $make";
-        }, $this->payload->json->campers)));
+        }, $this->payload->json->campers);
+
+        $total = join(', ', array_filter($strs));
 
         return $total;
     }
