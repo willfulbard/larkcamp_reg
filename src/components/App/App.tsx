@@ -145,7 +145,7 @@ class App extends React.Component {
                         <p> If you're paying by PayPal or credit card, we'll be
                         sending you a confirmation with payment instructions
                         within the next week. If you're paying by check, please
-                        make it for <strong> ${this.state.totals.total} </strong> 
+                        make it for <strong> ${calculatePrice(this.state).total || 0} </strong> 
                         payable to "Lark Camp", and mail it to: </p>
 
                         <address> Lark Camp<br /> PO Box 1724<br /> Mendocino,
