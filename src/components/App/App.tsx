@@ -142,14 +142,7 @@ class App extends React.Component {
                     <section className="reciept">
                         <h1>You're all set!</h1>
                         <h2>See you at Lark Camp 2020!</h2>
-                        <p> If you're paying by PayPal or credit card, we'll be
-                        sending you a confirmation with payment instructions
-                        within the next week. If you're paying by check, please
-                        make it for <strong> ${calculatePrice(this.state).total || 0} </strong> 
-                        payable to "Lark Camp", and mail it to: </p>
-
-                        <address> Lark Camp<br /> PO Box 1724<br /> Mendocino,
-                        CA 95460<br /> USA </address>
+                        <p> We'll be sending you a confirmation with payment instructions within the next week. </p>
 
                         <p>Do you need approval for your vehicle or trailer, have
                         questions about carpooling, payments, meals, ordering
