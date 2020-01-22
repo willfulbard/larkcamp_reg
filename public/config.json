@@ -281,7 +281,6 @@
                         "default": ""
                     }
                 },
-                "required": ["meal_plan"],
                 "dependencies": {
                     "meal_plan": {
                         "oneOf": [
