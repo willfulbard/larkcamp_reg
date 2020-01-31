@@ -44,6 +44,28 @@ class App extends React.Component {
         this.getConfig();
     }
 
+    componentDidUpdate() {
+        if (this.state.status === 'loaded') {
+            const config = this.state.config;
+
+            if (config && config.pricing) {
+                // Because of the way that react-jsonschema-form works, this is the
+                // simplest way to "templatify" the pricing
+                Object.keys(config.pricing).forEach(
+                    (key) => {
+                        const price = config.pricing[key];
+
+                        const els = document.getElementsByClassName("pricing_" + key);
+
+                        for (let i = 0; i < els.length; i++) {
+                            els[i].innerHTML = '$' + Math.abs(price);
+                        }
+                    }
+                );
+            }
+        }
+    }
+
     onSubmit = async ({formData}: any) => {
         this.setState({status: 'submitting'});
         try {
@@ -77,19 +99,6 @@ class App extends React.Component {
             totals: {},
         });
 
-        // Because of the way that react-jsonschema-form works, this is the
-        // simplest way to "templatify" the pricing
-        Object.keys(config.pricing).forEach(
-            (key) => {
-                const price = config.pricing[key];
-
-                const els = document.getElementsByClassName("pricing_" + key);
-
-                for (let i = 0; i < els.length; i++) {
-                    els[i].innerHTML = '$' + Math.abs(price);
-                }
-            }
-        );
     }
 
     onChange = ({formData}: IChangeEvent) => {
@@ -115,42 +124,42 @@ class App extends React.Component {
             case 'submitting':
                 pageContent = (
                     <section>
-                        <Form
-                            schema={this.state.config.dataSchema}
-                            uiSchema={this.state.config.uiSchema}
-                            widgets={widgetMap}
-                            fields={{DescriptionField: DescriptionField}}
-                            ObjectFieldTemplate={ObjectFieldTemplate}
-                            onChange={this.onChange}
-                            onSubmit={this.onSubmit}
-                            onError={() => console.log('errors')}
-                            formData={this.state.formData}
-                            transformErrors={this.transformErrors}
-                            // liveValidate={true}
-                        >
-                            <div>
-                                <p>By submitting this form, you agree to the <a href="http://www.larkcamp.org/campterms.html" target="_blank">Terms of Registration</a>.</p>
-                                <button type="submit" className="btn btn-info">Submit Registration</button>
-                            </div>
-                        </Form>
-                        <PriceTicker price={calculatePrice(this.state).total || 0} />
+                    <Form
+                    schema={this.state.config.dataSchema}
+                    uiSchema={this.state.config.uiSchema}
+                    widgets={widgetMap}
+                    fields={{DescriptionField: DescriptionField}}
+                    ObjectFieldTemplate={ObjectFieldTemplate}
+                    onChange={this.onChange}
+                    onSubmit={this.onSubmit}
+                    onError={() => console.log('errors')}
+                    formData={this.state.formData}
+                    transformErrors={this.transformErrors}
+                    // liveValidate={true}
+                    >
+                    <div>
+                    <p>By submitting this form, you agree to the <a href="http://www.larkcamp.org/campterms.html" target="_blank">Terms of Registration</a>.</p>
+                    <button type="submit" className="btn btn-info">Submit Registration</button>
+                    </div>
+                    </Form>
+                    <PriceTicker price={calculatePrice(this.state).total || 0} />
                     </section>
                 );  
                 break;
             case 'submitted':
                 pageContent = (
                     <section className="reciept">
-                        <h1>You're all set!</h1>
-                        <h2>See you at Lark Camp 2020!</h2>
-                        <p> We'll be sending you a confirmation with payment instructions within the next week. </p>
+                    <h1>You're all set!</h1>
+                    <h2>See you at Lark Camp 2020!</h2>
+                    <p> We'll be sending you a confirmation with payment instructions within the next week. </p>
 
-                        <p>Do you need approval for your vehicle or trailer, have
-                        questions about carpooling, payments, meals, ordering
-                        t-shirts, or anything else?  Email us at
-                        <a href="mailto: registration@larkcamp.org"> registration@larkcamp.org </a>
-                        or call 707-397-5275.</p>
+                    <p>Do you need approval for your vehicle or trailer, have
+                    questions about carpooling, payments, meals, ordering
+                    t-shirts, or anything else?  Email us at
+                    <a href="mailto: registration@larkcamp.org"> registration@larkcamp.org </a>
+                    or call 707-397-5275.</p>
 
-                        <a href="https://www.larkcamp.org">Visit our website at www.larkcamp.org for more information!</a>
+                    <a href="https://www.larkcamp.org">Visit our website at www.larkcamp.org for more information!</a>
                     </section>
                 )
                 break;
@@ -159,7 +168,7 @@ class App extends React.Component {
         }
         return (
             <div className="App">
-                {pageContent}
+            {pageContent}
             </div>
         );
     }
