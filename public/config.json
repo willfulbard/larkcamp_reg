@@ -48,7 +48,7 @@
                         "ui:description": "Let us know and we will try to accommodate your request."
                     },
                     "tenting_area_preference": {
-                        "ui:description": { "__html": "<p>Fill in your tenting preference below. To see a map of camp click on the links to open another window. Area A-C are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp1.gif' target='_blank'>Camp One</a>, D-H are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp2.gif' target='_blank'>Camp Two</a>, I-L are in <a href='http://www.larkcamp.org/giffiles/campgraphics/camp3.gif' target='_blank'>Camp Three</a></p>" }
+                        "ui:description": { "__html": "<p>Fill in your tenting preference below. To see a map of camp click on the links to open another window. Area A-C are in <a href='https://www.larkcamp.org/wp-content/uploads/2020/01/camp1-1024x775.gif' target='_blank'>Camp One</a>, D-H are in <a href='https://www.larkcamp.org/wp-content/uploads/2020/01/camp2-1024x735.gif' target='_blank'>Camp Two</a>, I-L are in <a href='https://www.larkcamp.org/wp-content/uploads/2020/01/camp3-1024x747.gif' target='_blank'>Camp Three</a></p>" }
                     }
                 },
                 "meals": {
