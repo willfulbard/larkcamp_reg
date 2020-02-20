@@ -162,7 +162,7 @@ class ValueFormatter
         return "$count $$total";
     }
 
-    public function accomodations_camp($p)
+    public function accommodations_camp($p)
     {
         // "Camp 1 = N/A
         //  Camp 2 = N/A
@@ -170,7 +170,7 @@ class ValueFormatter
         // ignore if no camper
         if (!$this->camper_exists($p)) return '';
 
-        $value = $this->get("campers[$p]->accomodations->camp_preference");
+        $value = $this->get("campers[$p]->accommodations->camp_preference");
 
         if (!$value) return join("\n", [
             "Camp 1 = N/A",
@@ -187,7 +187,7 @@ class ValueFormatter
         }, [1, 2, 3, 4]));
     }
 
-    public function accomodations_lodgepref($p)
+    public function accommodations_lodgepref($p)
     {
         // "Cabin = 4th Choice
         // Tent = 4th Choice
@@ -196,7 +196,7 @@ class ValueFormatter
 
         if (!$this->camper_exists($p)) return '';
 
-        $value = $this->get("campers[$p]->accomodations->accomodation_preference");
+        $value = $this->get("campers[$p]->accommodations->accommodation_preference");
 
         if (!$this->camper_exists($p)) return '';
 
@@ -221,11 +221,11 @@ class ValueFormatter
 
     }
 
-    public function accomodations_tentarea($p)
+    public function accommodations_tentarea($p)
     {
         if (!$this->camper_exists($p)) return '';
 
-        $tenting_area_preference = $this->get("campers[$p]->accomodations->tenting_area_preference");
+        $tenting_area_preference = $this->get("campers[$p]->accommodations->tenting_area_preference");
 
         if (!$tenting_area_preference) {
             return '';
@@ -403,9 +403,9 @@ class ValueFormatter
     {
 
         $strs = array_map(function ($camper) {
-            $acc = $camper->accomodations;
+            $acc = $camper->accommodations;
 
-            if ($acc->accomodation_preference !== 'Vehicle Camping') return false;
+            if ($acc->accommodation_preference !== 'Vehicle Camping') return false;
 
             $length = "unknown length";
             if (array_key_exists('vehicle_length', $acc)) $length = $acc->vehicle_length . "'";

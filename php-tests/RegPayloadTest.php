@@ -32,7 +32,7 @@ class RegistrationPayloadClassTest extends TestCase
 
         // test accomdations formating
         //
-        $value = $json->campers[0]->accomodations->camp_preference;
+        $value = $json->campers[0]->accommodations->camp_preference;
 
         $this->assertStringContainsString("$value = 1st Choice", $arr[31]);
 
@@ -94,9 +94,9 @@ class RegistrationPayloadClassTest extends TestCase
 
         $camper = $json->campers[0];
 
-        $camper->accomodations->accomodation_preference = 'Vehicle Camping';
-        $camper->accomodations->vehicle_length = 12;
-        $camper->accomodations->vehicle_make = 'Honda';
+        $camper->accommodations->accommodation_preference = 'Vehicle Camping';
+        $camper->accommodations->vehicle_length = 12;
+        $camper->accommodations->vehicle_make = 'Honda';
 
         // Just first camper
         $json->campers = [ $camper ];
